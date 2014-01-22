@@ -9,6 +9,11 @@ import com.leapmotion.leap.*;
  * @author Dennis Hägler - dennis.haegler@gmail.com
  */
 public class CeranControlPanel extends Listener {
+	private Herd herd;
+
+	public CeranControlPanel() {
+		herd = new Herd(4, 3);
+	}
 
 	@Override
 	public void onInit(Controller controller) {
@@ -42,7 +47,16 @@ public class CeranControlPanel extends Listener {
 		if (!frame.hands().isEmpty()) {
 			Hand hand = frame.hands().get(0);
 			area = getNumberPointedField(hand);
-			System.out.println("Position used: " + area);
+			int finger = hand.fingers().count();
+			if (!prevFrame.hands().isEmpty()) {
+				Hand prevHand = prevFrame.hands().get(0);
+				int prevArea = getNumberPointedField(prevHand);
+				if (area != prevArea) {
+					System.out.println("Position used: " + area + "\tFinger used: " + finger);
+				}
+			} else {
+				System.out.println("Position used: " + area + "\tFinger used: " + finger);
+			}
 		}
 		GestureList gestures = frame.gestures();
 		int countOfGestures = gestures.count();
@@ -112,8 +126,10 @@ public class CeranControlPanel extends Listener {
 		if (circle.pointable().direction().angleTo(circle.normal()) <= Math.PI / 4) {
 			// Clockwise if angle is less than 90 degrees
 			clockwiseness = "clockwise";
+			//TODO increase Heater
 		} else {
 			clockwiseness = "counterclockwise";
+			//TODO decrease heater
 		}
 		double sweptAngle = 0;
 		if (circle.state() != Gesture.State.STATE_START) {
