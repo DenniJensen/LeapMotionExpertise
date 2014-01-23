@@ -47,6 +47,10 @@ public class Herd {
 		//TODO increase Plate
 	}
 
+	public void decreaseHotplate(int numberOfHotplate) {
+		//TODO increase Plate
+	}
+
 	@Override
 	public String toString() {
 		int countOfHeader = hotplates.length;

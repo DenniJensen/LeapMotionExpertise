@@ -9,6 +9,9 @@ import com.leapmotion.leap.*;
  * @author Dennis Hägler - dennis.haegler@gmail.com
  */
 public class CeranControlPanel extends Listener {
+	private final int NO_CHANGE = 0;
+	private final int INCREASE = 1;
+	private final int DECREASE = -1;
 	private Herd herd;
 
 	public CeranControlPanel() {
@@ -24,9 +27,6 @@ public class CeranControlPanel extends Listener {
 	public void onConnect(Controller controller) {
 		System.out.println("Connected");
 		controller.enableGesture(Gesture.Type.TYPE_SWIPE);
-		controller.enableGesture(Gesture.Type.TYPE_CIRCLE);
-		controller.enableGesture(Gesture.Type.TYPE_SCREEN_TAP);
-		controller.enableGesture(Gesture.Type.TYPE_KEY_TAP);
 	}
 
 	@Override
@@ -43,42 +43,42 @@ public class CeranControlPanel extends Listener {
 	public void onFrame(Controller controller) {
 		Frame prevFrame = controller.frame(1);
 		Frame frame = controller.frame();
-		int area = 0;
+		Field pointedField = Field.NO_FIELD;
 		if (!frame.hands().isEmpty()) {
 			Hand hand = frame.hands().get(0);
-			area = getNumberPointedField(hand);
+			pointedField = getNumberPointedField(hand);
 			int finger = hand.fingers().count();
 			if (!prevFrame.hands().isEmpty()) {
 				Hand prevHand = prevFrame.hands().get(0);
-				int prevArea = getNumberPointedField(prevHand);
-				if (area != prevArea) {
-					System.out.println("Position used: " + area + "\tFinger used: " + finger);
+				Field prevField = getNumberPointedField(prevHand);
+				if (pointedField != prevField) {
+					System.out.println("Position used: " + pointedField + "\tFinger used: " + finger);
 				}
 			} else {
-				System.out.println("Position used: " + area + "\tFinger used: " + finger);
+				System.out.println("Position used: " + pointedField + "\tFinger used: " + finger);
 			}
 		}
 		GestureList gestures = frame.gestures();
+		int changeTemp = NO_CHANGE;
 		int countOfGestures = gestures.count();
 		for (int i = 0; i < countOfGestures; i++) {
 			Gesture gesture = gestures.get(i);
 			switch (gesture.type()) {
 				case TYPE_CIRCLE:
-					circleGesture(gesture, frame, prevFrame);
-					break;
-				case TYPE_SWIPE:
-					swipeGesture(gesture);
-					break;
-				case TYPE_SCREEN_TAP:
-					screenTapGesture(gesture);
-					break;
-				case TYPE_KEY_TAP:
-					keyTapGesture(gesture);
+					changeTemp = circleGesture(gesture, frame, prevFrame);
 					break;
 				default:
 					System.out.println("Unknown gesture type.");
 					break;
 			}
+		}
+		if (changeTemp == INCREASE) {
+			herd.increaseHotplate(pointedField.ordinal());
+		} else if (changeTemp == INCREASE) {
+			herd.decreaseHotplate(pointedField.ordinal());
+		}
+		if (changeTemp != NO_CHANGE) {
+			System.out.print(herd.toString());
 		}
 	}
 
@@ -95,22 +95,22 @@ public class CeranControlPanel extends Listener {
 	 *             coordinate system given from the leap motion controller.
 	 * @return an integer of the pointed field.
 	 */
-	private int getNumberPointedField(Hand hand) {
+	private Field getNumberPointedField(Hand hand) {
 		Vector vector = hand.palmPosition();
 		float xPos = vector.getX();
 		float zPos = vector.getZ();
-		int position;
+		Field position;
 		if (zPos < 0) {
 			if (xPos < 0) {
-				position = 1;
+				position = Field.TOP_LEFT;
 			} else {
-				position = 2;
+				position = Field.TOP_RIGHT;
 			}
 		} else {
 			if (xPos < 0) {
-				position = 3;
+				position = Field.BOTTOM_LEFT;
 			} else {
-				position = 4;
+				position = Field.BOTTOM_RIGHT;
 			}
 		}
 		return position;
@@ -120,64 +120,14 @@ public class CeranControlPanel extends Listener {
 	 *
 	 * @param gesture
 	 */
-	private void circleGesture(Gesture gesture, Frame frame, Frame prevFrame) {
+	private int circleGesture(Gesture gesture, Frame frame, Frame prevFrame) {
 		CircleGesture circle = new CircleGesture(gesture);
-		String clockwiseness;
+		int heatLevel;
 		if (circle.pointable().direction().angleTo(circle.normal()) <= Math.PI / 4) {
-			// Clockwise if angle is less than 90 degrees
-			clockwiseness = "clockwise";
-			//TODO increase Heater
+			heatLevel = INCREASE;
 		} else {
-			clockwiseness = "counterclockwise";
-			//TODO decrease heater
+			heatLevel = DECREASE;
 		}
-		double sweptAngle = 0;
-		if (circle.state() != Gesture.State.STATE_START) {
-			CircleGesture previousUpdate = new CircleGesture(prevFrame.gesture(circle.id()));
-			sweptAngle = (circle.progress() - previousUpdate.progress()) * 2 * Math.PI;
-		}
-		System.out.println("Circle id: " + circle.id()
-				+ ", " + circle.state()
-				+ ", progress: " + circle.progress()
-				+ ", radius: " + circle.radius()
-				+ ", angle: " + Math.toDegrees(sweptAngle)
-				+ ", " + clockwiseness);
-	}
-
-	/**
-	 *
-	 * @param gesture
-	 */
-	private void swipeGesture(Gesture gesture) {
-		SwipeGesture swipe = new SwipeGesture(gesture);
-		System.out.println("Swipe id: " + swipe.id()
-				+ ", " + swipe.state()
-				+ ", position: " + swipe.position()
-				+ ", direction: " + swipe.direction()
-				+ ", speed: " + swipe.speed());
-	}
-
-	/**
-	 *
-	 * @param gesture
-	 */
-	private void screenTapGesture(Gesture gesture) {
-		ScreenTapGesture screenTap = new ScreenTapGesture(gesture);
-		System.out.println("Screen Tap id: " + screenTap.id()
-				+ ", " + screenTap.state()
-				+ ", position: " + screenTap.position()
-				+ ", direction: " + screenTap.direction());
-	}
-
-	/**
-	 *
-	 * @param gesture
-	 */
-	private void keyTapGesture(Gesture gesture) {
-		KeyTapGesture keyTap = new KeyTapGesture(gesture);
-		System.out.println("Key Tap id: " + keyTap.id()
-				+ ", " + keyTap.state()
-				+ ", position: " + keyTap.position()
-				+ ", direction: " + keyTap.direction());
+		return heatLevel;
 	}
 }
