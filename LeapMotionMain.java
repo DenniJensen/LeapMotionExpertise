@@ -16,6 +16,7 @@ public class LeapMotionMain {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		sketch.setWidth(50);
 		controller.removeListener(ceranControl);
 	}
 }
