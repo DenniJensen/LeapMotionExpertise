@@ -1,6 +1,5 @@
 import com.leapmotion.leap.*;
 
-
 /**
  * This class listener will listen to the leap motion controller.
  * It will be control an ceran panel by analyse the position of the hand
@@ -26,7 +25,7 @@ public class CeranControlPanel extends Listener {
 	@Override
 	public void onConnect(Controller controller) {
 		System.out.println("Connected");
-		controller.enableGesture(Gesture.Type.TYPE_SWIPE);
+		controller.enableGesture(Gesture.Type.TYPE_CIRCLE);
 	}
 
 	@Override
@@ -44,22 +43,9 @@ public class CeranControlPanel extends Listener {
 		Frame prevFrame = controller.frame(1);
 		Frame frame = controller.frame();
 		Field pointedField = Field.NO_FIELD;
-		if (!frame.hands().isEmpty()) {
-			Hand hand = frame.hands().get(0);
-			pointedField = getNumberPointedField(hand);
-			int finger = hand.fingers().count();
-			if (!prevFrame.hands().isEmpty()) {
-				Hand prevHand = prevFrame.hands().get(0);
-				Field prevField = getNumberPointedField(prevHand);
-				if (pointedField != prevField) {
-					System.out.println("Position used: " + pointedField + "\tFinger used: " + finger);
-				}
-			} else {
-				System.out.println("Position used: " + pointedField + "\tFinger used: " + finger);
-			}
-		}
 		GestureList gestures = frame.gestures();
 		int changeTemp = NO_CHANGE;
+		showChange(prevFrame, frame);
 		int countOfGestures = gestures.count();
 		for (int i = 0; i < countOfGestures; i++) {
 			Gesture gesture = gestures.get(i);
@@ -78,8 +64,24 @@ public class CeranControlPanel extends Listener {
 			herd.decreaseHotplate(pointedField.ordinal());
 		}
 		if (changeTemp != NO_CHANGE) {
-			System.out.print(herd.toString());
+			System.out.println("Changed Temp");
 		}
+	}
+
+	/**
+	 *
+	 * @param frame
+	 * @return
+	 */
+	private Field getPointedField(Frame frame) {
+		Field pointedField;
+		if (frame.hands().isEmpty()) {
+			pointedField = Field.NO_FIELD;
+		} else {
+			Hand hand = frame.hands().get(0);
+			pointedField = getField(hand);
+		}
+		return pointedField;
 	}
 
 	/**
@@ -95,25 +97,42 @@ public class CeranControlPanel extends Listener {
 	 *             coordinate system given from the leap motion controller.
 	 * @return an integer of the pointed field.
 	 */
-	private Field getNumberPointedField(Hand hand) {
+	private Field getField(Hand hand) {
 		Vector vector = hand.palmPosition();
 		float xPos = vector.getX();
 		float zPos = vector.getZ();
-		Field position;
+		Field field;
 		if (zPos < 0) {
 			if (xPos < 0) {
-				position = Field.TOP_LEFT;
+				field = Field.TOP_LEFT;
 			} else {
-				position = Field.TOP_RIGHT;
+				field = Field.TOP_RIGHT;
 			}
 		} else {
 			if (xPos < 0) {
-				position = Field.BOTTOM_LEFT;
+				field = Field.BOTTOM_LEFT;
 			} else {
-				position = Field.BOTTOM_RIGHT;
+				field = Field.BOTTOM_RIGHT;
 			}
 		}
-		return position;
+		return field;
+	}
+
+	/**
+	 *
+	 * @param prevFrame
+	 * @param frame
+	 */
+	private void showChange(Frame prevFrame, Frame frame) {
+		Field pointedField = getPointedField(frame);
+		Field prevField = getPointedField(prevFrame);
+		if (pointedField != prevField) {
+			System.out.println("Position used: " + pointedField);
+			//TODO change
+		} else {
+			//System.out.println("Position used: " + pointedField);
+			//TODO No Change
+		}
 	}
 
 	/**

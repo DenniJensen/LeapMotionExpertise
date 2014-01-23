@@ -3,10 +3,10 @@
  */
 public class Herd {
 	private Hotplate[] hotplates;
-	private boolean powerButton;
+	private boolean isOn;
 
 	public Herd(int numberHotplates) {
-		powerButton = false;
+		isOn = false;
 		hotplates = new Hotplate[numberHotplates];
 		int hotPlatHeaterLevels = numberHotplates;
 		for (int i = 0; i < numberHotplates; i++) {
@@ -15,7 +15,7 @@ public class Herd {
 	}
 
 	public Herd(int numberHotplates, int maxLevelsOfHotplates) {
-		powerButton = false;
+		isOn = false;
 		hotplates = new Hotplate[numberHotplates];
 		int hotPlatHeaterLevels = maxLevelsOfHotplates;
 		for (int i = 0; i < numberHotplates; i++) {
@@ -24,15 +24,15 @@ public class Herd {
 	}
 
 	public boolean isOn() {
-		return powerButton;
+		return isOn;
 	}
 
 	public void turnOn() {
-		powerButton = true;
+		isOn = true;
 	}
 
 	public void turnOff() {
-		powerButton = false;
+		isOn = false;
 		//TODO turn all heate off
 	}
 
@@ -43,12 +43,16 @@ public class Herd {
 		}
 	}
 
-	public void increaseHotplate(int numberOfHotplate) {
-		//TODO increase Plate
+	public void increaseHotplate(int index) {
+		//TODO check if herd is on
+		if (isOn) {
+			hotplates[index].increaseHeatLevel();
+		}
 	}
 
-	public void decreaseHotplate(int numberOfHotplate) {
+	public void decreaseHotplate(int index) {
 		//TODO increase Plate
+		hotplates[index].decreaseHeatLevel();
 	}
 
 	@Override

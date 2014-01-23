@@ -4,6 +4,8 @@ import java.io.IOException;
 public class LeapMotionMain {
 
 	public static void main(String[] args) {
+		MyProcessingSketch sketch = new MyProcessingSketch();
+		//sketch.setup();
 		CeranControlPanel ceranControl = new CeranControlPanel();
 		Controller controller = new Controller(ceranControl);
 		System.out.println("Field: " + Field.TOP_LEFT);
