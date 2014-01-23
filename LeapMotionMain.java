@@ -9,7 +9,7 @@ public class LeapMotionMain {
 		MyProcessingSketch sketch = new MyProcessingSketch();
 		PApplet.main(new String[]{"--present", "MyProcessingSketch"});
 		ControlPanel ceranControl = new ControlPanel();
-		Controller controller = new Controller(ceranControl);
+		MyLeapController controller = new MyLeapController(ceranControl);
 		System.out.println("Press Enter to quit...");
 		try {
 			System.in.read();

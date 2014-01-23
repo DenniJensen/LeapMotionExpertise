@@ -22,7 +22,7 @@ public class MyProcessingSketch extends PApplet {
 		stroke(255);
 		line(0, height/2, width, height/2);
 		line(width / 2, 0, width / 2, height);
-		ellipse(56, 46, height / 4, height / 4);
+		drawHotplates();
 		if (mousePressed) {
 			line(mouseX,mouseY,pmouseX,pmouseY);
 		}
@@ -30,6 +30,18 @@ public class MyProcessingSketch extends PApplet {
 		if (keyPressed) {
 			background(0);
 		}
-	}	
+	}
+
+	private void drawHotplates() {
+		final int X_LEFT = width / 4;
+		final int X_RIGHT = X_LEFT + width / 2;
+		final int Y_TOP = height / 4;
+		final int Y_BOTTON = Y_TOP + height / 2;
+		final int RADIUS = height / 3;
+		ellipse(X_LEFT, Y_TOP, RADIUS, RADIUS);
+		ellipse(X_RIGHT, Y_TOP, RADIUS, RADIUS);
+		ellipse(X_LEFT, Y_BOTTON, RADIUS, RADIUS);
+		ellipse(X_RIGHT, Y_BOTTON, RADIUS, RADIUS);
+	}
 	
 }
