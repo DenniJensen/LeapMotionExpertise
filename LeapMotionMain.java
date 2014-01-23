@@ -5,8 +5,8 @@ public class LeapMotionMain {
 
 	public static void main(String[] args) {
 		MyProcessingSketch sketch = new MyProcessingSketch();
-		//sketch.setup();
-		CeranControlPanel ceranControl = new CeranControlPanel();
+		sketch.setup();
+		ControlPanel ceranControl = new ControlPanel();
 		Controller controller = new Controller(ceranControl);
 		System.out.println("Field: " + Field.TOP_LEFT);
 		System.out.println("Field: " + Field.TOP_LEFT.ordinal());
@@ -16,6 +16,6 @@ public class LeapMotionMain {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//controller.removeListener(ceranControl);
+		controller.removeListener(ceranControl);
 	}
 }

@@ -1,6 +1,3 @@
-/**
- *
- */
 public class Herd {
 	private Hotplate[] hotplates;
 	private boolean isOn;
