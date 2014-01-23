@@ -1,14 +1,16 @@
 import processing.core.PApplet;
 
 public class MyProcessingSketch extends PApplet {
+	private int width;
+	private int height;
 
 	public void setup() {
 		System.out.print("Test");
-		int width = displayWidth;
-		int heigt = displayHeight;
-		System.out.println("Width: " + width + " " + "heigt: " + heigt);
+		width = displayWidth;
+		height = displayHeight;
+		System.out.println("Width: " + width + " " + "heigt: " + height);
 
-		size(width,heigt);
+		size(width, height);
 		background(0);
 	}
 
@@ -21,5 +23,6 @@ public class MyProcessingSketch extends PApplet {
 		if (keyPressed) {
 			background(0);
 		}
-	}
+	}	
+	
 }

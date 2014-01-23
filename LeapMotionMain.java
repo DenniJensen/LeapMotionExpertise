@@ -10,8 +10,6 @@ public class LeapMotionMain {
 		PApplet.main(new String[]{"--present", "MyProcessingSketch"});
 		ControlPanel ceranControl = new ControlPanel();
 		Controller controller = new Controller(ceranControl);
-		System.out.println("Field: " + Field.TOP_LEFT);
-		System.out.println("Field: " + Field.TOP_LEFT.ordinal());
 		System.out.println("Press Enter to quit...");
 		try {
 			System.in.read();

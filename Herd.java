@@ -1,4 +1,6 @@
-public class Herd {
+import processing.core.PApplet;
+
+public class Herd extends PApplet {
 	private Hotplate[] hotplates;
 	private boolean isOn;
 
