@@ -15,14 +15,6 @@ public class MyProcessingSketch extends PApplet {
 		background(0);
 	}
 
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
-	public void setField(Field field) {
-		this.hoveredField = field;
-	}
-
 	public void draw() {
 		stroke(255);
 		line(0, height/2, width, height/2);
