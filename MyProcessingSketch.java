@@ -9,7 +9,6 @@ public class MyProcessingSketch extends PApplet {
 		width = displayWidth;
 		height = displayHeight;
 		System.out.println("Width: " + width + " " + "heigt: " + height);
-
 		size(width, height);
 		background(0);
 	}
