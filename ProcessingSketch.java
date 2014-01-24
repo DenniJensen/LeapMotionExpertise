@@ -20,6 +20,7 @@ public class ProcessingSketch extends PApplet {
 	}
 
 	public void draw() {
+		background(0);
 		stroke(255);
 		line(0, height/2, width, height/2);
 		line(width / 2, 0, width / 2, height);
@@ -30,7 +31,11 @@ public class ProcessingSketch extends PApplet {
 		}
 
 		if (keyPressed) {
-			redraw();
+			if (hoveredField != Field.NO_FIELD) {
+				hoveredField = Field.NO_FIELD;
+			} else {
+				hoveredField = Field.TOP_LEFT;
+			}
 		}
 	}
 
