@@ -12,11 +12,9 @@ public class ControlPanel extends Listener {
 	private final int INCREASE = 1;
 	private final int DECREASE = -1;
 	private Herd herd;
-	public Field field;
 
 	public ControlPanel() {
 		herd = new Herd(4, 3);
-		field = Field.NO_FIELD;
 	}
 
 	@Override

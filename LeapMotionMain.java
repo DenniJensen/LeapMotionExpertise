@@ -1,16 +1,12 @@
-import com.leapmotion.leap.Controller;
-import processing.core.PApplet;
-
 import java.io.IOException;
 
 public class LeapMotionMain {
 
 	public static void main(String[] args) {
-		MyProcessingSketch sketch = new MyProcessingSketch();
+		ProcessingSketch sketch = new ProcessingSketch();
 		ControlPanel ceranControl = new ControlPanel();
 		MyLeapMotionController controller = new MyLeapMotionController(ceranControl);
-		sketch.main(new String[]{"--present", "MyProcessingSketch"});
-		ceranControl.field = Field.BOTTOM_RIGHT;
+		sketch.main("ProcessingSketch");
 		System.out.println("Press Enter to quit...");
 		try {
 			System.in.read();
