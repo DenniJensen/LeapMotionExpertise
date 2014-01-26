@@ -11,10 +11,25 @@ public class ControlPanel extends Listener {
 	private final int NO_CHANGE = 0;
 	private final int INCREASE = 1;
 	private final int DECREASE = -1;
-	private Herd herd;
+	private Herd herdModel;
+	private ProcessingSketch processingView;
 
 	public ControlPanel() {
-		herd = new Herd(4, 3);
+		herdModel = new Herd(4, 3);
+	}
+
+	public ControlPanel(Herd model, ProcessingSketch view) {
+		this.herdModel = model;
+		this.processingView = view;
+		this.processingView.setHoveredField(Field.BOTTOM_RIGHT);
+	}
+
+	public void setHerdModel(Herd model) {
+		this.herdModel = model;
+	}
+
+	public void setProcessingView(ProcessingSketch processingView) {
+		this.processingView = processingView;
 	}
 
 	@Override
@@ -59,9 +74,9 @@ public class ControlPanel extends Listener {
 			}
 		}
 		if (changeTemp == INCREASE) {
-			herd.increaseHotplate(pointedField.ordinal());
+			herdModel.increaseHotplate(pointedField.ordinal());
 		} else if (changeTemp == INCREASE) {
-			herd.decreaseHotplate(pointedField.ordinal());
+			herdModel.decreaseHotplate(pointedField.ordinal());
 		}
 		if (changeTemp != NO_CHANGE) {
 			System.out.println("Changed Temp");

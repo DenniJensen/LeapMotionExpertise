@@ -7,6 +7,11 @@ public class ProcessingSketch extends PApplet {
 
 	public void setup() {
 		hoveredField = Field.NO_FIELD;
+		//TODO Clean Up
+		Herd model = new Herd(4, 3);
+		ControlPanel ceranControl = new ControlPanel(model, this);
+		MyLeapMotionController controller = new MyLeapMotionController(ceranControl);
+
 		System.out.print("Test");
 		width = displayWidth;
 		height = displayHeight;
@@ -28,14 +33,6 @@ public class ProcessingSketch extends PApplet {
 		drawHoverDot();
 		if (mousePressed) {
 			line(mouseX,mouseY,pmouseX,pmouseY);
-		}
-
-		if (keyPressed) {
-			if (hoveredField != Field.NO_FIELD) {
-				hoveredField = Field.NO_FIELD;
-			} else {
-				hoveredField = Field.TOP_LEFT;
-			}
 		}
 	}
 
