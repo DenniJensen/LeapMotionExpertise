@@ -7,28 +7,15 @@ import com.leapmotion.leap.*;
  * 
  * @author Dennis Hägler - dennis.haegler@gmail.com
  */
-public class ControlPanel extends Listener {
+public class ControlListener extends Listener {
 	private final int NO_CHANGE = 0;
 	private final int INCREASE = 1;
 	private final int DECREASE = -1;
 	private Herd model;
-	private ProcessingSketch view;
+	//private ProcessingSketch view;
 
-	public ControlPanel() {
+	public ControlListener() {
 		model = new Herd(4, 3);
-	}
-
-	public ControlPanel(Herd model, ProcessingSketch view) {
-		this.model = model;
-		this.view = view;
-	}
-
-	public void setModel(Herd model) {
-		this.model = model;
-	}
-
-	public void setView(ProcessingSketch view) {
-		this.view = view;
 	}
 
 	@Override
@@ -57,7 +44,7 @@ public class ControlPanel extends Listener {
 		Frame prevFrame = controller.frame(1);
 		Frame frame = controller.frame();
 		Field pointedField = getPointedField(frame);
-		view.setHoveredField(pointedField);
+		//view.setHoveredField(pointedField);
 		showChange(prevFrame, frame);
 		final int FRAMES_TO_LOCK = 10;
 		readyFieldAfterFrames(controller, FRAMES_TO_LOCK);

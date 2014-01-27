@@ -4,13 +4,14 @@ public class ProcessingSketch extends PApplet {
 	private int width;
 	private int height;
 	private Field hoveredField;
+	private MyLeapMotionController controller;
 
 	public void setup() {
 		hoveredField = Field.NO_FIELD;
 		//Need to be here to give the controller a reference to the view (this)
 		Herd model = new Herd(4, 3);
-		ControlPanel ceranControl = new ControlPanel(model, this);
-		MyLeapMotionController controller = new MyLeapMotionController(ceranControl);
+		ControlListener ceranControl = new ControlListener(model, this);
+		controller = new MyLeapMotionController(ceranControl);
 
 
 		System.out.print("Test");
@@ -50,6 +51,7 @@ public class ProcessingSketch extends PApplet {
 	}
 
 	private void drawHoverDot () {
+		fill(255, 0, 0);
 		final int X_LEFT = (width / 16) + width / 3;
 		final int X_RIGHT = X_LEFT + width / 2;
 		final int Y_TOP = height / 16;

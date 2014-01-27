@@ -5,7 +5,7 @@ import com.leapmotion.leap.Controller;
  */
 public class MyLeapMotionController extends Controller {
 
-	public MyLeapMotionController(ControlPanel listener) {
+	public MyLeapMotionController(ControlListener listener) {
 		super(listener);
 	}
 }
