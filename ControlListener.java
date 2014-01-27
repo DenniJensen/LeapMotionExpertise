@@ -14,12 +14,13 @@ public class ControlListener extends Listener {
 	boolean isHandLocked;
 	private Herd model;
 	int frameCount;
-	//private ProcessingSketch view;
+	private ProcessingSketch view;
 
 	public ControlListener() {
 		model = new Herd(4, 5);
 		isHandLocked = false;
 		frameCount = 0;
+		//this.view = view;
 	}
 
 	@Override
@@ -45,9 +46,8 @@ public class ControlListener extends Listener {
 
 	@Override
 	public void onFrame(Controller controller) {
-		frameCount++;
-		System.out.println(frameCount);
-		//Frame prevFrame = controller.frame(1);
+
+
 		Frame frame = controller.frame();
 		Field pointedField = getPointedField(frame);
 		//view.setHoveredField(pointedField);
