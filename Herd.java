@@ -13,11 +13,6 @@ public class Herd extends PApplet {
 		}
 	}
 
-	/**
-	 *
-	 * @param numberHotplates the number of hot plates on the herd.
-	 * @param maxLevelsOfHotplates the maximum level of the hot plates.
-	 */
 	public Herd(int numberHotplates, int maxLevelsOfHotplates) {
 		isOn = false;
 		hotplates = new Hotplate[numberHotplates];

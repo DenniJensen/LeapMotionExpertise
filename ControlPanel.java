@@ -18,10 +18,9 @@ public class ControlPanel extends Listener {
 		herdModel = new Herd(4, 3);
 	}
 
-	public ControlPanel(Herd model, ProcessingSketch view) {
-		this.herdModel = model;
-		this.processingView = view;
-		this.processingView.setHoveredField(Field.BOTTOM_RIGHT);
+	public ControlPanel(Herd herdModel, ProcessingSketch processingView) {
+		this.herdModel = herdModel;
+		this.processingView = processingView;
 	}
 
 	public void setHerdModel(Herd model) {
@@ -81,6 +80,8 @@ public class ControlPanel extends Listener {
 		if (changeTemp != NO_CHANGE) {
 			System.out.println("Changed Temp");
 		}
+
+		//TODO handle frame get the logic the control the herd and show on view
 	}
 
 	/**
