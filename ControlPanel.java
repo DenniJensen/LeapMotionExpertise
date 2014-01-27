@@ -11,24 +11,24 @@ public class ControlPanel extends Listener {
 	private final int NO_CHANGE = 0;
 	private final int INCREASE = 1;
 	private final int DECREASE = -1;
-	private Herd herdModel;
-	private ProcessingSketch processingView;
+	private Herd model;
+	private ProcessingSketch view;
 
 	public ControlPanel() {
-		herdModel = new Herd(4, 3);
+		model = new Herd(4, 3);
 	}
 
-	public ControlPanel(Herd herdModel, ProcessingSketch processingView) {
-		this.herdModel = herdModel;
-		this.processingView = processingView;
+	public ControlPanel(Herd model, ProcessingSketch view) {
+		this.model = model;
+		this.view = view;
 	}
 
-	public void setHerdModel(Herd model) {
-		this.herdModel = model;
+	public void setModel(Herd model) {
+		this.model = model;
 	}
 
-	public void setProcessingView(ProcessingSketch processingView) {
-		this.processingView = processingView;
+	public void setView(ProcessingSketch view) {
+		this.view = view;
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class ControlPanel extends Listener {
 	@Override
 	public void onConnect(Controller controller) {
 		System.out.println("Connected");
-		controller.enableGesture(Gesture.Type.TYPE_CIRCLE);
+		//controller.enableGesture(Gesture.Type.TYPE_CIRCLE);
 	}
 
 	@Override
@@ -56,30 +56,13 @@ public class ControlPanel extends Listener {
 	public void onFrame(Controller controller) {
 		Frame prevFrame = controller.frame(1);
 		Frame frame = controller.frame();
-		Field pointedField = Field.NO_FIELD;
-		GestureList gestures = frame.gestures();
-		int changeTemp = NO_CHANGE;
+		Field pointedField = getPointedField(frame);
+		view.setHoveredField(pointedField);
 		showChange(prevFrame, frame);
-		int countOfGestures = gestures.count();
-		for (int i = 0; i < countOfGestures; i++) {
-			Gesture gesture = gestures.get(i);
-			switch (gesture.type()) {
-				case TYPE_CIRCLE:
-					changeTemp = circleGesture(gesture, frame, prevFrame);
-					break;
-				default:
-					System.out.println("Unknown gesture type.");
-					break;
-			}
-		}
-		if (changeTemp == INCREASE) {
-			herdModel.increaseHotplate(pointedField.ordinal());
-		} else if (changeTemp == INCREASE) {
-			herdModel.decreaseHotplate(pointedField.ordinal());
-		}
-		if (changeTemp != NO_CHANGE) {
-			System.out.println("Changed Temp");
-		}
+		final int FRAMES_TO_LOCK = 10;
+		readyFieldAfterFrames(controller, FRAMES_TO_LOCK);
+
+
 
 		//TODO handle frame get the logic the control the herd and show on view
 	}
@@ -151,18 +134,9 @@ public class ControlPanel extends Listener {
 		}
 	}
 
-	/**
-	 *
-	 * @param gesture
-	 */
-	private int circleGesture(Gesture gesture, Frame frame, Frame prevFrame) {
-		CircleGesture circle = new CircleGesture(gesture);
-		int heatLevel;
-		if (circle.pointable().direction().angleTo(circle.normal()) <= Math.PI / 4) {
-			heatLevel = INCREASE;
-		} else {
-			heatLevel = DECREASE;
+	private void readyFieldAfterFrames(Controller controller, final int FRAMES_TO_LOCK) {
+		for (int i = FRAMES_TO_LOCK; i >= 0; --i) {
+			//TODO count last ten frames and lock if there are all in the same field (mark in the view)
 		}
-		return heatLevel;
 	}
 }
