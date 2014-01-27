@@ -46,18 +46,6 @@ public class Herd extends PApplet {
 		}
 	}
 
-	public void increaseHotplate(int index) {
-		//TODO check if herd is on
-		if (isOn) {
-			hotplates[index].increaseHeatLevel();
-		}
-	}
-
-	public void decreaseHotplate(int index) {
-		//TODO increase Plate
-		hotplates[index].decreaseHeatLevel();
-	}
-
 	@Override
 	public String toString() {
 		int countOfHeader = hotplates.length;
