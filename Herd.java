@@ -4,39 +4,13 @@ public class Herd extends PApplet {
 	private Hotplate[] hotplates;
 	private boolean isOn;
 
-	public Herd(int numberHotplates) {
-		isOn = false;
-		hotplates = new Hotplate[numberHotplates];
-		int hotPlatHeaterLevels = numberHotplates;
-		for (int i = 0; i < numberHotplates; i++) {
-			hotplates[i] = new Hotplate(hotPlatHeaterLevels);
-		}
-	}
-
 	public Herd(int numberHotplates, int maxLevelsOfHotplates) {
 		isOn = false;
 		hotplates = new Hotplate[numberHotplates];
-		int hotPlatHeaterLevels = maxLevelsOfHotplates;
 		for (int i = 0; i < numberHotplates; i++) {
-			hotplates[i] = new Hotplate(hotPlatHeaterLevels);
+			hotplates[i] = new Hotplate(maxLevelsOfHotplates);
 		}
-	}
-
-	public boolean isOn() {
-		return isOn;
-	}
-
-	public void turnOn() {
-		isOn = true;
-	}
-
-	public void setHeatLevel(int heatLevel, int hotPlate) {
-		hotplates[hotPlate].setHeatLevel(heatLevel);
-	}
-
-	public void turnOff() {
-		isOn = false;
-		//TODO turn all heate off
+		 //TODO turn all heate off
 	}
 
 	private void turnOffAllHotPlates() {
@@ -44,6 +18,10 @@ public class Herd extends PApplet {
 		for (int i = 0; i < count; i++) {
 			hotplates[i].turnOff();
 		}
+	}
+
+	public void setHeatLevel(int hotPlate, int heatLevel) {
+		hotplates[hotPlate].setHeatLevel(heatLevel);
 	}
 
 	@Override

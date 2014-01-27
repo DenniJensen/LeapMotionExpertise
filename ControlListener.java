@@ -16,7 +16,7 @@ public class ControlListener extends Listener {
 	//private ProcessingSketch view;
 
 	public ControlListener() {
-		model = new Herd(4, 3);
+		model = new Herd(4, 5);
 		isHandLocked = false;
 	}
 
@@ -56,6 +56,7 @@ public class ControlListener extends Listener {
 			int trackedFinger = getCountTrackedFingers(controller);
 			//TODO Add to Model
 			System.out.println(trackedFinger + " Fingers tracked");
+			//TODO trackedFinger returns 0 every time
 			model.setHeatLevel(pointedField.ordinal(), trackedFinger);
 		}
 
@@ -140,7 +141,7 @@ public class ControlListener extends Listener {
 
 
 	private int getCountTrackedFingers(Controller controller) {
-		Hand hand = controller.frame().hand(0);
-		return hand.fingers().count();
+		int fingerCount = controller.frame().fingers().count();
+		return fingerCount;
 	}
 }
