@@ -10,8 +10,8 @@ public class ProcessingSketch extends PApplet {
 		hoveredField = Field.NO_FIELD;
 		//Need to be here to give the controller a reference to the view (this)
 		Herd model = new Herd(4, 3);
-		ControlListener ceranControl = new ControlListener(model, this);
-		controller = new MyLeapMotionController(ceranControl);
+		//ControlListener ceranControl = new ControlListener(model, this);
+		//controller = new MyLeapMotionController(ceranControl);
 
 
 		System.out.print("Test");

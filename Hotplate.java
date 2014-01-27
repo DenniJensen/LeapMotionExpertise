@@ -45,6 +45,14 @@ public class Hotplate {
 
 	/**
 	 *
+	 * @param heatLevel
+	 */
+	public void setHeatLevel(int heatLevel) {
+		this.heatLevel = heatLevel;
+	}
+
+	/**
+	 *
 	 * @return
 	 */
 	public int getHeatLevel() {
@@ -84,4 +92,6 @@ public class Hotplate {
 	public String toString() {
 		return "Heating: " + powerState + " --- Heat Level: " + heatLevel;
 	}
+
+
 }

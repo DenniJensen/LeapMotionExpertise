@@ -11,6 +11,6 @@ public class LeapMotionMain {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		controller.removeListener(ceranControl);
+		leapMotionController.removeListener(controlListener);
 	}
 }

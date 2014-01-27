@@ -30,6 +30,10 @@ public class Herd extends PApplet {
 		isOn = true;
 	}
 
+	public void setHeatLevel(int heatLevel, int hotPlate) {
+		hotplates[hotPlate].setHeatLevel(heatLevel);
+	}
+
 	public void turnOff() {
 		isOn = false;
 		//TODO turn all heate off

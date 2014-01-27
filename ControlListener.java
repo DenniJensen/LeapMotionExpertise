@@ -11,11 +11,13 @@ public class ControlListener extends Listener {
 	private final int NO_CHANGE = 0;
 	private final int INCREASE = 1;
 	private final int DECREASE = -1;
+	boolean isHandLocked;
 	private Herd model;
 	//private ProcessingSketch view;
 
 	public ControlListener() {
 		model = new Herd(4, 3);
+		isHandLocked = false;
 	}
 
 	@Override
@@ -41,13 +43,19 @@ public class ControlListener extends Listener {
 
 	@Override
 	public void onFrame(Controller controller) {
-		Frame prevFrame = controller.frame(1);
+		//Frame prevFrame = controller.frame(1);
 		Frame frame = controller.frame();
 		Field pointedField = getPointedField(frame);
 		//view.setHoveredField(pointedField);
-		showChange(prevFrame, frame);
+		//showChange(prevFrame, frame);
 		final int FRAMES_TO_LOCK = 10;
-		readyFieldAfterFrames(controller, FRAMES_TO_LOCK);
+		if (isSameFieldForCertainFrames(controller, FRAMES_TO_LOCK)) {
+			System.out.println(pointedField + " LOCKED");
+			int trackedFinger = getCountTrackedFingers(controller);
+			//TODO Add to Model
+			System.out.println(trackedFinger + " Fingers tracked");
+			model.setHeatLevel(pointedField.ordinal(), trackedFinger);
+		}
 
 
 
@@ -121,9 +129,25 @@ public class ControlListener extends Listener {
 		}
 	}
 
-	private void readyFieldAfterFrames(Controller controller, final int FRAMES_TO_LOCK) {
-		for (int i = FRAMES_TO_LOCK; i >= 0; --i) {
-			//TODO count last ten frames and lock if there are all in the same field (mark in the view)
+	private boolean isSameFieldForCertainFrames(Controller controller, int framesToLock) {
+		Frame frame;
+		Frame prevFrame;
+		Field field;
+		Field prevField;
+		for (int i = 0; i < framesToLock; i++) {
+			frame = controller.frame(i);
+			prevFrame = controller.frame(i + 1);
+			field = getPointedField(frame);
+			prevField = getPointedField(prevFrame);
+			if (field != prevField || field == Field.NO_FIELD) {
+				return false;
+			}
 		}
+		return true;
+	}
+
+	private int getCountTrackedFingers(Controller controller) {
+		Hand hand = controller.frame().hand(0);
+		return hand.fingers().count();
 	}
 }
