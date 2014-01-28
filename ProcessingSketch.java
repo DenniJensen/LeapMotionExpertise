@@ -4,17 +4,16 @@ public class ProcessingSketch extends PApplet {
 	private int width;
 	private int height;
 	private Field hoveredField;
-	private MyLeapMotionController controller;
+
 
 	public void setup() {
 		hoveredField = Field.NO_FIELD;
 		//Need to be here to give the controller a reference to the view (this)
-		Herd model = new Herd(4, 3);
-		//ControlListener ceranControl = new ControlListener(model, this);
-		//controller = new MyLeapMotionController(ceranControl);
 
-
-		System.out.print("Test");
+		//ControlListener controlListener = new ControlListener(this);
+		//MyLeapMotionController leapMotionController = new MyLeapMotionController(controlListener);
+		//TODO MISSING LOOP
+		System.out.println("Test");
 		width = displayWidth;
 		height = displayHeight;
 		System.out.println("Width: " + width + " " + "heigt: " + height);

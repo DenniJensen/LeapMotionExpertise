@@ -1,3 +1,5 @@
+import processing.core.PApplet;
+
 import java.io.IOException;
 
 public class LeapMotionMain {

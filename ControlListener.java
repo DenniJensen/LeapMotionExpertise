@@ -13,11 +13,14 @@ public class ControlListener extends Listener {
 	private final int DECREASE = -1;
 	boolean isHandLocked;
 	private Herd model;
-	//private ProcessingSketch view;
+	int frameCount;
+	private ProcessingSketch view;
 
 	public ControlListener() {
 		model = new Herd(4, 5);
 		isHandLocked = false;
+		frameCount = 0;
+		//this.view = view;
 	}
 
 	@Override
@@ -43,25 +46,22 @@ public class ControlListener extends Listener {
 
 	@Override
 	public void onFrame(Controller controller) {
-		//Frame prevFrame = controller.frame(1);
+
+
 		Frame frame = controller.frame();
 		Field pointedField = getPointedField(frame);
 		//view.setHoveredField(pointedField);
 		//showChange(prevFrame, frame);
 		final int FRAMES_TO_LOCK = 10;
-
 		//TODO if hand is locked, not needed to try to lock again
 		if (isSameFieldForCertainFrames(controller, FRAMES_TO_LOCK)) {
 			System.out.println(pointedField + " LOCKED");
 			int trackedFinger = getCountTrackedFingers(controller);
-			//TODO Add to Model
+
 			System.out.println(trackedFinger + " Fingers tracked");
-			//TODO trackedFinger returns 0 every time
+
 			model.setHeatLevel(pointedField.ordinal(), trackedFinger);
 		}
-
-
-
 		//TODO handle frame get the logic the control the herd and show on view
 	}
 
@@ -110,8 +110,6 @@ public class ControlListener extends Listener {
 	private boolean isSameFieldForCertainFrames(Controller controller, int framesToLock) {
 		Frame frame;
 		Frame prevFrame;
-		Field field;
-		Field prevField;
 		for (int i = 0; i < framesToLock; i++) {
 			frame = controller.frame(i);
 			prevFrame = controller.frame(i + 1);
