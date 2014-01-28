@@ -17,7 +17,7 @@ public class ControlListener extends Listener {
 	private ProcessingSketch view;
 
 	public ControlListener() {
-		model = new Herd(4, 5);
+		model = new Herd(4, 6);
 		isHandLocked = false;
 		frameCount = 0;
 		//this.view = view;
