@@ -64,30 +64,6 @@ public class HotPlate {
 	public int getHeatLevel() {
 		return heatLevel;
 	}
-	
-	/**
-	 * Increases the heat level by one. You cannot be higher as the max heat level
-	 * from the cooker. Changes will be ignored if the new heat level is higher as
-	 * the max heat level.
-	 */
-	public void increaseHeatLevel() {
-		int newLevel = heatLevel + 1;
-		if (newLevel <= maxHeadLevel) {
-			heatLevel = newLevel;
-		}
-	}
-	
-	/**
-	 * Decreases the heat level by one. You cannot be lower as 0.
-	 * Changes will be ignored if the new heat level is lower as
-	 * the 0.
-	 */
-	public void decreaseHeatLevel() {
-		int newLevel = heatLevel - 1;
-		if (newLevel >= 0) {
-			heatLevel = newLevel;
-		}
-	}
 
 	/**
 	 * Returns an information string from the hotplate.

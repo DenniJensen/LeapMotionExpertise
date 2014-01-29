@@ -5,7 +5,7 @@ import com.leapmotion.leap.Controller;
 public class ProcessingSketch extends PApplet {
 	private int width;
 	private int height;
-	private Field hoveredField; //TODO maybe from controller
+	private Field hoveredField;
 	private Controller leapController;
 	private ControlListener controlListener;
 	private Herd model;
@@ -18,9 +18,9 @@ public class ProcessingSketch extends PApplet {
 		width = displayWidth;
 		height = displayHeight;
 		size(width, height);
-		this.model = new Herd(4, 5);
-		this.controlListener = new ControlListener(model, this);
-		this.leapController = new Controller(controlListener);
+		model = new Herd(4, 3);
+		controlListener = new ControlListener(model, this);
+		leapController = new Controller(controlListener);
 	}
 
 	public void setHoveredField(Field field) {

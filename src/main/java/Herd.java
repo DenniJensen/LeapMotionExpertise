@@ -11,11 +11,16 @@ public class Herd {
 		 //TODO turn all heat off
 	}
 
-	private void turnOffAllHotPlates() {
+	public void turnOff() {
 		int count = hotPlates.length;
 		for (int i = 0; i < count; i++) {
 			hotPlates[i].turnOff();
 		}
+		this.isOn = false;
+	}
+
+	public void turn0n() {
+		this.isOn = true;
 	}
 
 	public void setHeatLevel(int hotPlate, int heatLevel) {

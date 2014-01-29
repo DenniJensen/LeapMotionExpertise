@@ -5,13 +5,15 @@ import com.leapmotion.leap.*;
  * @author Dennis Hägler - dennis.haegler@gmail.com
  */
 public class ControlListener extends Listener {
-	boolean isHandLocked;
 	private Herd model;
 	private ProcessingSketch view;
+	private int frameCount;
+	boolean isHandLocked;
 
 	public ControlListener(Herd model, ProcessingSketch view) {
 		this.model = model;
 		this.view = view;
+		this.frameCount = 0;
 		this.isHandLocked = false;
 	}
 
@@ -27,7 +29,6 @@ public class ControlListener extends Listener {
 	@Override
 	public void onConnect(Controller controller) {
 		System.out.println("Connected");
-		//controller.enableGesture(Gesture.Type.TYPE_CIRCLE);
 	}
 
 	@Override
@@ -43,20 +44,26 @@ public class ControlListener extends Listener {
 	@Override
 	public void onFrame(Controller controller) {
 		Frame frame = controller.frame();
+		Frame prevFrame = controller.frame(1);
 		Field pointedField = getPointedField(frame);
+		Field prevPointedField = getPointedField(prevFrame);
 		view.setHoveredField(pointedField);
-		final int FRAMES_TO_LOCK = 10;
+		final int FRAMES_TO_LOCK = 120;
+		if (pointedField == prevPointedField && pointedField != Field.NO_FIELD) {
+			frameCount++;
+			System.out.println("SAME!!!");
+		} else {
+			frameCount = 0;
+		}
 		//TODO if hand is locked, not needed to try to lock again
-		if (isSameFieldForCertainFrames(controller, FRAMES_TO_LOCK)) {
+		if (frameCount == FRAMES_TO_LOCK) {
 			System.out.println(pointedField + " LOCKED");
 			int trackedFinger = getCountTrackedFingers(controller);
-
 			System.out.println(trackedFinger + " Fingers tracked");
 			int p = pointedField.ordinal();
-			System.out.print("Ordinal from Point: " + p);
+			System.out.println("Ordinal from Point: " + p);
 			model.setHeatLevel(p, trackedFinger);
 		}
-		//TODO handle frame get the logic the control the herd and show on view
 	}
 
 	/**
@@ -101,19 +108,6 @@ public class ControlListener extends Listener {
 		return field;
 	}
 
-	private boolean isSameFieldForCertainFrames(Controller controller, int framesToLock) {
-		Frame frame;
-		Frame prevFrame;
-		for (int i = 0; i < framesToLock; i++) {
-			frame = controller.frame(i);
-			prevFrame = controller.frame(i + 1);
-			if (!isPointedSameField(prevFrame, frame)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
 	/**
 	 *
 	 * @param prevFrame
@@ -130,7 +124,6 @@ public class ControlListener extends Listener {
 		}
 		return isSameField;
 	}
-
 
 	private int getCountTrackedFingers(Controller controller) {
 		int fingerCount = controller.frame().fingers().count();
