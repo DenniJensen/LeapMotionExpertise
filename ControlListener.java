@@ -1,10 +1,6 @@
 import com.leapmotion.leap.*;
-import processing.core.PApplet;
 
 /**
- * This class listener will listen to the leap motion controller.
- * It will be control an ceran panel by analyse the position of the hand
- * and the gesture made by the hand and finger on the leap motion controller.
  * 
  * @author Dennis Hägler - dennis.haegler@gmail.com
  */
@@ -15,8 +11,8 @@ public class ControlListener extends Listener {
 
 	public ControlListener(Herd model, ProcessingSketch view) {
 		this.model = model;
-		isHandLocked = false;
 		this.view = view;
+		this.isHandLocked = false;
 	}
 
 	public Herd getModel() {
@@ -56,8 +52,9 @@ public class ControlListener extends Listener {
 			int trackedFinger = getCountTrackedFingers(controller);
 
 			System.out.println(trackedFinger + " Fingers tracked");
-
-			//model.setHeatLevel(pointedField.ordinal(), trackedFinger);
+			int p = pointedField.ordinal();
+			System.out.print("Ordinal from Point: " + p);
+			model.setHeatLevel(p, trackedFinger);
 		}
 		//TODO handle frame get the logic the control the herd and show on view
 	}

@@ -1,4 +1,5 @@
 import processing.core.PApplet;
+import processing.core.PFont;
 import com.leapmotion.leap.Controller;
 
 public class ProcessingSketch extends PApplet {
@@ -8,14 +9,17 @@ public class ProcessingSketch extends PApplet {
 	private Controller leapController;
 	private ControlListener controlListener;
 	private Herd model;
+	private PFont font;
 
 
 	public void setup() {
+		font = createFont("Arial",16,true);
 		hoveredField = Field.NO_FIELD;
 		width = displayWidth;
 		height = displayHeight;
 		size(width, height);
-		this.controlListener = new ControlListener(this);
+		this.model = new Herd(4, 5);
+		this.controlListener = new ControlListener(model, this);
 		this.leapController = new Controller(controlListener);
 	}
 
@@ -30,6 +34,7 @@ public class ProcessingSketch extends PApplet {
 		line(width / 2, 0, width / 2, height);
 		drawHotplates();
 		drawHoverDot();
+		textFont(font, height / 16);
 	}
 
 	private void drawHotplates() {
@@ -38,10 +43,34 @@ public class ProcessingSketch extends PApplet {
 		final int Y_TOP = height / 4;
 		final int Y_BOTTOM = Y_TOP + height / 2;
 		final int RADIUS = height / 3;
+		int heatLevel = 0;
+		fill(255);
 		ellipse(X_LEFT, Y_TOP, RADIUS, RADIUS);
+		fill(0);
+		textAlign(CENTER);
+		heatLevel = this.controlListener.getModel().getHeatLevel(0);
+		text(heatLevel, X_LEFT, Y_TOP);
+
+		fill(255);
 		ellipse(X_RIGHT, Y_TOP, RADIUS, RADIUS);
+		fill(0);
+		textAlign(CENTER);
+		heatLevel = this.controlListener.getModel().getHeatLevel(1);
+		text(heatLevel, X_RIGHT, Y_TOP);
+
+		fill(255);
 		ellipse(X_LEFT, Y_BOTTOM, RADIUS, RADIUS);
+		fill(0);
+		textAlign(CENTER);
+		heatLevel = this.controlListener.getModel().getHeatLevel(2);
+		text(heatLevel, X_LEFT, Y_BOTTOM);
+
+		fill(255);
 		ellipse(X_RIGHT, Y_BOTTOM, RADIUS, RADIUS);
+		fill(0);
+		textAlign(CENTER);
+		heatLevel = this.controlListener.getModel().getHeatLevel(3);
+		text(heatLevel, X_RIGHT, Y_BOTTOM);
 	}
 
 	private void drawHoverDot () {

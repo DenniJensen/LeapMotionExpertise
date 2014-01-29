@@ -1,38 +1,44 @@
-import processing.core.PApplet;
-
-public class Herd extends PApplet {
-	private Hotplate[] hotplates;
+public class Herd {
+	private HotPlate[] hotPlates;
 	private boolean isOn;
 
 	public Herd(int numberHotplates, int maxLevelsOfHotplates) {
-		isOn = false;
-		hotplates = new Hotplate[numberHotplates];
+		this.isOn = false;
+		this.hotPlates = new HotPlate[numberHotplates];
 		for (int i = 0; i < numberHotplates; i++) {
-			hotplates[i] = new Hotplate(maxLevelsOfHotplates);
+			hotPlates[i] = new HotPlate(maxLevelsOfHotplates);
 		}
-		 //TODO turn all heate off
+		 //TODO turn all heat off
 	}
 
 	private void turnOffAllHotPlates() {
-		int count = hotplates.length;
+		int count = hotPlates.length;
 		for (int i = 0; i < count; i++) {
-			hotplates[i].turnOff();
+			hotPlates[i].turnOff();
 		}
 	}
 
 	public void setHeatLevel(int hotPlate, int heatLevel) {
-		hotplates[hotPlate].setHeatLevel(heatLevel);
+		hotPlates[hotPlate].setHeatLevel(heatLevel);
+	}
+
+	public int getHeatLevel(int hotPlate) {
+		return hotPlates[hotPlate].getHeatLevel();
+	}
+
+	public int getHotPlates() {
+		return this.hotPlates.length;
 	}
 
 	@Override
 	public String toString() {
-		int countOfHeader = hotplates.length;
+		int countOfHeader = hotPlates.length;
 		String outGoingString = "";
 		if (countOfHeader == 0) {
 			outGoingString = "No Header implemented";
 		} else {
 			for (int i = 0; i < countOfHeader; i++) {
-				outGoingString += "Header-" + i + " " + hotplates[i].toString() + "\n";
+				outGoingString += "Header-" + i + " " + hotPlates[i].toString() + "\n";
 			}
 		}
 		return outGoingString;
