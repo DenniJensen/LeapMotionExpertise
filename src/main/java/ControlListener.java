@@ -49,6 +49,7 @@ public class ControlListener extends Listener {
 		Field prevPointedField = getPointedField(prevFrame);
 		view.setHoveredField(pointedField);
 		final int FRAMES_TO_LOCK = 120;
+		final int FRAMES_TO_LISTEN_TO_FINGERS = 60;
 		if (pointedField == prevPointedField && pointedField != Field.NO_FIELD) {
 			frameCount++;
 			System.out.println("SAME!!!");
@@ -56,13 +57,18 @@ public class ControlListener extends Listener {
 			frameCount = 0;
 		}
 		//TODO if hand is locked, not needed to try to lock again
-		if (frameCount == FRAMES_TO_LOCK) {
-			System.out.println(pointedField + " LOCKED");
-			int trackedFinger = getCountTrackedFingers(controller);
-			System.out.println(trackedFinger + " Fingers tracked");
-			int p = pointedField.ordinal();
-			System.out.println("Ordinal from Point: " + p);
-			model.setHeatLevel(p, trackedFinger);
+		if (frameCount >= FRAMES_TO_LOCK) {
+			isHandLocked = true;
+			//int trackedFinger = getCountTrackedFingers(controller);
+			//int p = pointedField.ordinal();
+			//model.setHeatLevel(p, trackedFinger);
+		} else {
+			isHandLocked = false;
+		}
+		if (isHandLocked) {
+			view.setLockedField(pointedField);
+		} else {
+			view.setLockedField(Field.NO_FIELD);
 		}
 	}
 
@@ -106,23 +112,6 @@ public class ControlListener extends Listener {
 			}
 		}
 		return field;
-	}
-
-	/**
-	 *
-	 * @param prevFrame
-	 * @param frame
-	 */
-	private boolean isPointedSameField(Frame prevFrame, Frame frame) {
-		boolean isSameField = false;
-		Field pointedField = getPointedField(frame);
-		Field prevField = getPointedField(prevFrame);
-		if (pointedField == prevField && pointedField != Field.NO_FIELD) {
-			isSameField = true;
-		} else {
-			isSameField = false;
-		}
-		return isSameField;
 	}
 
 	private int getCountTrackedFingers(Controller controller) {
