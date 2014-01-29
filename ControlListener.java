@@ -1,4 +1,5 @@
 import com.leapmotion.leap.*;
+import processing.core.PApplet;
 
 /**
  * This class listener will listen to the leap motion controller.
@@ -8,19 +9,18 @@ import com.leapmotion.leap.*;
  * @author Dennis Hägler - dennis.haegler@gmail.com
  */
 public class ControlListener extends Listener {
-	private final int NO_CHANGE = 0;
-	private final int INCREASE = 1;
-	private final int DECREASE = -1;
 	boolean isHandLocked;
 	private Herd model;
-	int frameCount;
 	private ProcessingSketch view;
 
-	public ControlListener() {
-		model = new Herd(4, 6);
+	public ControlListener(Herd model, ProcessingSketch view) {
+		this.model = model;
 		isHandLocked = false;
-		frameCount = 0;
-		//this.view = view;
+		this.view = view;
+	}
+
+	public Herd getModel() {
+		return this.model;
 	}
 
 	@Override
@@ -46,12 +46,9 @@ public class ControlListener extends Listener {
 
 	@Override
 	public void onFrame(Controller controller) {
-
-
 		Frame frame = controller.frame();
 		Field pointedField = getPointedField(frame);
-		//view.setHoveredField(pointedField);
-		//showChange(prevFrame, frame);
+		view.setHoveredField(pointedField);
 		final int FRAMES_TO_LOCK = 10;
 		//TODO if hand is locked, not needed to try to lock again
 		if (isSameFieldForCertainFrames(controller, FRAMES_TO_LOCK)) {
@@ -60,7 +57,7 @@ public class ControlListener extends Listener {
 
 			System.out.println(trackedFinger + " Fingers tracked");
 
-			model.setHeatLevel(pointedField.ordinal(), trackedFinger);
+			//model.setHeatLevel(pointedField.ordinal(), trackedFinger);
 		}
 		//TODO handle frame get the logic the control the herd and show on view
 	}

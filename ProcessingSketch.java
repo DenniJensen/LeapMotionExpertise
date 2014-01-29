@@ -1,24 +1,22 @@
 import processing.core.PApplet;
+import com.leapmotion.leap.Controller;
 
 public class ProcessingSketch extends PApplet {
 	private int width;
 	private int height;
-	private Field hoveredField;
+	private Field hoveredField; //TODO maybe from controller
+	private Controller leapController;
+	private ControlListener controlListener;
+	private Herd model;
 
 
 	public void setup() {
 		hoveredField = Field.NO_FIELD;
-		//Need to be here to give the controller a reference to the view (this)
-
-		//ControlListener controlListener = new ControlListener(this);
-		//MyLeapMotionController leapMotionController = new MyLeapMotionController(controlListener);
-		//TODO MISSING LOOP
-		System.out.println("Test");
 		width = displayWidth;
 		height = displayHeight;
-		System.out.println("Width: " + width + " " + "heigt: " + height);
 		size(width, height);
-		background(0);
+		this.controlListener = new ControlListener(this);
+		this.leapController = new Controller(controlListener);
 	}
 
 	public void setHoveredField(Field field) {
@@ -28,13 +26,10 @@ public class ProcessingSketch extends PApplet {
 	public void draw() {
 		background(0);
 		stroke(255);
-		line(0, height/2, width, height/2);
+		line(0, height / 2, width, height/2);
 		line(width / 2, 0, width / 2, height);
 		drawHotplates();
 		drawHoverDot();
-		if (mousePressed) {
-			line(mouseX,mouseY,pmouseX,pmouseY);
-		}
 	}
 
 	private void drawHotplates() {
