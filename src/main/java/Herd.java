@@ -8,7 +8,6 @@ public class Herd {
 		for (int i = 0; i < numberHotplates; i++) {
 			hotPlates[i] = new HotPlate(maxLevelsOfHotplates);
 		}
-		 //TODO turn all heat off
 	}
 
 	public void turnOff() {

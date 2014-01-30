@@ -7,13 +7,17 @@ import com.leapmotion.leap.*;
 public class ControlListener extends Listener {
 	private Herd model;
 	private ProcessingSketch view;
-	private int frameCount;
-	boolean isHandLocked;
+	private int framesInSameField;
+	private int framesWithSameFingerCount;
+	private boolean isHandLocked;
+	private final int FRAMES_TO_LOCK = 60;
+	private final int FRAMES_TO_LISTEN_TO_FINGERS = 60;
 
 	public ControlListener(Herd model, ProcessingSketch view) {
 		this.model = model;
 		this.view = view;
-		this.frameCount = 0;
+		this.framesInSameField = 0;
+		this.framesWithSameFingerCount = 0;
 		this.isHandLocked = false;
 	}
 
@@ -48,27 +52,39 @@ public class ControlListener extends Listener {
 		Field pointedField = getPointedField(frame);
 		Field prevPointedField = getPointedField(prevFrame);
 		view.setHoveredField(pointedField);
-		final int FRAMES_TO_LOCK = 120;
-		final int FRAMES_TO_LISTEN_TO_FINGERS = 60;
-		if (pointedField == prevPointedField && pointedField != Field.NO_FIELD) {
-			frameCount++;
-			System.out.println("SAME!!!");
-		} else {
-			frameCount = 0;
-		}
-		//TODO if hand is locked, not needed to try to lock again
-		if (frameCount >= FRAMES_TO_LOCK) {
+		countFramesOnSameField(pointedField, prevPointedField);
+		if (framesInSameField >= FRAMES_TO_LOCK) {
 			isHandLocked = true;
-			//int trackedFinger = getCountTrackedFingers(controller);
-			//int p = pointedField.ordinal();
-			//model.setHeatLevel(p, trackedFinger);
 		} else {
 			isHandLocked = false;
 		}
 		if (isHandLocked) {
 			view.setLockedField(pointedField);
+			countFramesWithSameFingerCount(frame, prevFrame);
 		} else {
 			view.setLockedField(Field.NO_FIELD);
+			framesWithSameFingerCount = 0;
+		}
+		if (framesWithSameFingerCount == FRAMES_TO_LISTEN_TO_FINGERS) {
+			int trackedFinger = getTrackedFingerCount(controller);
+			int p = pointedField.ordinal();
+			model.setHeatLevel(p, trackedFinger);
+		}
+	}
+
+	private void countFramesOnSameField(Field pointedField, Field prevPointedField) {
+		if (pointedField == prevPointedField && pointedField != Field.NO_FIELD) {
+			framesInSameField++;
+		} else {
+			framesInSameField = 0;
+		}
+	}
+
+	private void countFramesWithSameFingerCount(Frame frame, Frame prevFrame) {
+		if (isSameFingerCount(frame, prevFrame)) {
+			framesWithSameFingerCount++;
+		} else {
+			framesWithSameFingerCount = 0;
 		}
 	}
 
@@ -114,8 +130,15 @@ public class ControlListener extends Listener {
 		return field;
 	}
 
-	private int getCountTrackedFingers(Controller controller) {
-		int fingerCount = controller.frame().fingers().count();
-		return fingerCount;
+	private boolean isSameFingerCount(Frame firstFrame, Frame otherFrame) {
+		return firstFrame.fingers().count() == otherFrame.fingers().count();
+	}
+
+	private int getTrackedFingerCount(Controller controller) {
+		return getTrackedFingerCount(controller.frame());
+	}
+
+	private int getTrackedFingerCount(Frame frame) {
+		return frame.fingers().count();
 	}
 }
