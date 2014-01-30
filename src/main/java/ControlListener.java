@@ -65,10 +65,18 @@ public class ControlListener extends Listener {
 			view.setLockedField(Field.NO_FIELD);
 			framesWithSameFingerCount = 0;
 		}
+		if (framesWithSameFingerCount >= FRAMES_TO_LISTEN_TO_FINGERS / 3) {
+			view.setTrackLevel(1);
+		}
+		if (framesWithSameFingerCount >= (FRAMES_TO_LISTEN_TO_FINGERS * 2) / 3) {
+			view.setTrackLevel(2);
+		}
 		if (framesWithSameFingerCount == FRAMES_TO_LISTEN_TO_FINGERS) {
+			view.setTrackLevel(3);
 			int trackedFinger = getTrackedFingerCount(controller);
 			int p = pointedField.ordinal();
 			model.setHeatLevel(p, trackedFinger);
+			view.setTrackLevel(0);
 		}
 	}
 

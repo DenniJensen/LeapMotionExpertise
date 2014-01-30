@@ -10,6 +10,7 @@ public class ProcessingSketch extends PApplet {
 	private int height;
 	private Field hoveredField;
 	private Field lockedField;
+	private int trackLevel;
 	private Controller leapController;
 	private ControlListener controlListener;
 	private Herd model;
@@ -26,32 +27,23 @@ public class ProcessingSketch extends PApplet {
 		width = displayWidth;
 		height = displayHeight;
 		size(width, height);
-		model = new Herd(4, 3);
+		model = new Herd(4, 5);
 		controlListener = new ControlListener(model, this);
 		leapController = new Controller(controlListener);
 	}
 
-	/**
-	 * Sets the value to draw an visual feedback for the user on the screen where the hand is hovering.
-	 *
-	 * @param field the field to show visual feedback.
-	 */
 	public void setHoveredField(Field field) {
 		this.hoveredField = field;
 	}
 
-	/**
-	 * Sets the value to draw visual feedback
-	 *
-	 * @param field
-	 */
 	public void setLockedField(Field field) {
 		this.lockedField = field;
 	}
 
-	/**
-	 * Draw method from processing.
-	 */
+	public void setTrackLevel(int trackLevel) {
+		this.trackLevel = trackLevel;
+	}
+
 	public void draw() {
 		background(0);
 		stroke(255);
@@ -61,7 +53,7 @@ public class ProcessingSketch extends PApplet {
 		drawLockedField();
 		drawHotplates();
 		textFont(font, height / 16);
-		drawLoadingDot();
+		//drawLoadingDot();
 		drawHeatLevel();
 	}
 
@@ -88,7 +80,7 @@ public class ProcessingSketch extends PApplet {
 
 	private void drawHoverDot () {
 		stroke(255, 0, 0);
-		fill(255, 0, 0);
+		fill(0, 0, 0);
 		final int X_LEFT = (width / 16) + width / 3;
 		final int X_RIGHT = X_LEFT + width / 2;
 		final int Y_TOP = height / 16;
@@ -96,13 +88,29 @@ public class ProcessingSketch extends PApplet {
 		final int RADIUS = height / 20;
 		if (hoveredField != Field.NO_FIELD) {
 			if (hoveredField == Field.TOP_LEFT) {
+				if (lockedField == Field.TOP_LEFT) {
+					fill(255, 0, 0);
+				}
 				ellipse(X_LEFT, Y_TOP, RADIUS, RADIUS);
+				fill(0, 0, 0);
 			} else if (hoveredField == Field.TOP_RIGHT) {
+				if (lockedField == Field.TOP_RIGHT) {
+					fill(255, 0, 0);
+				}
 				ellipse(X_RIGHT, Y_TOP, RADIUS, RADIUS);
+				fill(0, 0, 0);
 			} else if (hoveredField == Field.BOTTOM_LEFT) {
+				if (lockedField == Field.BOTTOM_LEFT) {
+					fill(255, 0, 0);
+				}
 				ellipse(X_LEFT, Y_BOTTOM, RADIUS, RADIUS);
+				fill(0, 0, 0);
 			} else if (hoveredField == Field.BOTTOM_RIGHT) {
+				if (lockedField == Field.BOTTOM_RIGHT) {
+					fill(255, 0, 0);
+				}
 				ellipse(X_RIGHT, Y_BOTTOM, RADIUS, RADIUS);
+				fill(0, 0, 0);
 			}
 		}
 	}
@@ -138,17 +146,30 @@ public class ProcessingSketch extends PApplet {
 		final int RADIUS = height / 30;
 		final int SPACE = RADIUS + 10;
 
+		if (trackLevel > 0 && hoveredField == Field.TOP_LEFT) {
+			fill(0, 255, 0, 1);
+		}
 		ellipse(X_LEFT, Y_TOP, RADIUS, RADIUS);
 		ellipse(X_LEFT + SPACE, Y_TOP, RADIUS, RADIUS);
 		ellipse(X_LEFT + 2 * SPACE, Y_TOP, RADIUS, RADIUS);
 
+		if (trackLevel > 0 && hoveredField == Field.TOP_RIGHT) {
+			fill(0, 255, 0, 1);
+		}
 		ellipse(X_RIGHT, Y_TOP, RADIUS, RADIUS);
 		ellipse(X_RIGHT + SPACE, Y_TOP, RADIUS, RADIUS);
 		ellipse(X_RIGHT + 2 * SPACE, Y_TOP, RADIUS, RADIUS);
 
+		if (trackLevel > 0 && hoveredField == Field.BOTTOM_LEFT) {
+			fill(0, 255, 0, 1);
+		}
 		ellipse(X_LEFT, Y_BOTTOM, RADIUS, RADIUS);
 		ellipse(X_LEFT + SPACE, Y_BOTTOM, RADIUS, RADIUS);
 		ellipse(X_LEFT + 2 * SPACE, Y_BOTTOM, RADIUS, RADIUS);
+
+		if (trackLevel > 0 && hoveredField == Field.BOTTOM_RIGHT) {
+			fill(0, 255, 0, 1);
+		}
 
 		ellipse(X_RIGHT, Y_BOTTOM, RADIUS, RADIUS);
 		ellipse(X_RIGHT + SPACE, Y_BOTTOM, RADIUS, RADIUS);
