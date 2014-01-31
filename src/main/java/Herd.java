@@ -1,3 +1,7 @@
+/**
+ *
+ * @author Dennis Hägler - dennis.haegler@gmail.com
+ */
 public class Herd {
 	private HotPlate[] hotPlates;
 	private boolean isOn;

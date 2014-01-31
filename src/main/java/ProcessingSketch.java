@@ -4,6 +4,8 @@ import com.leapmotion.leap.Controller;
 
 /**
  * Object to draw the logic in Processing.
+ *
+ * @author Dennis Hägler - dennis.haegler@gmail.com
  */
 public class ProcessingSketch extends PApplet {
 	private int width;
@@ -53,7 +55,7 @@ public class ProcessingSketch extends PApplet {
 		drawLockedField();
 		drawHotplates();
 		textFont(font, height / 16);
-		//drawLoadingDot();
+		drawLoadingDot();
 		drawHeatLevel();
 	}
 

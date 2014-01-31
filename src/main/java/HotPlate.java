@@ -2,7 +2,7 @@
  * Simple hot plate used in a cooker. Contains a power button and a 
  * head level. 
  * 
- * @author Dennis Haegler
+ * @author Dennis Haegler - dennis.haegler@gmail.com
  */
 public class HotPlate {
 	private boolean powerState;
