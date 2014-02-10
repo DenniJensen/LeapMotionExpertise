@@ -53,8 +53,11 @@ public class ControlListener extends Listener {
 		Field prevPointedField = getPointedField(prevFrame);
 		view.setHoveredField(pointedField);
 		countFramesOnSameField(pointedField, prevPointedField);
-		int trackedFinger = getTrackedFingerCount(controller);
-		view.setCurrentFingerCount(trackedFinger);
+		int fingerCount = getTrackedFingerCount(frame);
+		int prevFingerCount = getTrackedFingerCount(prevFrame);
+		if (fingerCount == prevFingerCount) {
+			view.setCurrentFingerCount(fingerCount);
+		}
 		if (framesInSameField >= FRAMES_TO_LOCK) {
 			isHandLocked = true;
 		} else {
@@ -75,7 +78,7 @@ public class ControlListener extends Listener {
 		}
 		if (framesWithSameFingerCount == FRAMES_TO_LISTEN_TO_FINGERS) {
 			int p = pointedField.ordinal();
-			model.setHeatLevel(p, trackedFinger);
+			model.setHeatLevel(p, fingerCount);
 		}
 	}
 

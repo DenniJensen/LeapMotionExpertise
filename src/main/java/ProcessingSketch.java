@@ -89,7 +89,7 @@ public class ProcessingSketch extends PApplet {
 		int heatRadius = radius / 10;
 		int distanceToNextHeat = radius / 5;
 		stroke(255, 0, 0);
-		strokeWeight(15);
+		strokeWeight(25);
 		for (int i = 0;  i < heatLevel; i++) {
 			ellipse(xPos, yPos, heatRadius, heatRadius);
 			heatRadius += distanceToNextHeat;
@@ -145,8 +145,8 @@ public class ProcessingSketch extends PApplet {
 	private void drawNewHeatLevelOnCurrentFingerCound(int xPos, int yPos, int radius) {
 		int heatRadius = radius / 10;
 		int distanceToNextHeat = radius / 5;
-		stroke(255, 255, 255, 80);
-		strokeWeight(15);
+		stroke(255, 255, 255, 50);
+		strokeWeight(10);
 		for (int i = 0;  i < currentFingerCount; i++) {
 			ellipse(xPos, yPos, heatRadius, heatRadius);
 			heatRadius += distanceToNextHeat;
