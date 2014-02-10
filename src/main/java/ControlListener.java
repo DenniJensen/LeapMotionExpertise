@@ -10,8 +10,8 @@ public class ControlListener extends Listener {
 	private int framesInSameField;
 	private int framesWithSameFingerCount;
 	private boolean isHandLocked;
-	private final int FRAMES_TO_LOCK = 30;
-	private final int FRAMES_TO_LISTEN_TO_FINGERS = 10;
+	private final int FRAMES_TO_LOCK = 60;
+	private final int FRAMES_TO_LISTEN_TO_FINGERS = 30;
 
 	public ControlListener(Herd model, ProcessingSketch view) {
 		this.model = model;
@@ -53,6 +53,8 @@ public class ControlListener extends Listener {
 		Field prevPointedField = getPointedField(prevFrame);
 		view.setHoveredField(pointedField);
 		countFramesOnSameField(pointedField, prevPointedField);
+		int trackedFinger = getTrackedFingerCount(controller);
+		view.setCurrentFingerCount(trackedFinger);
 		if (framesInSameField >= FRAMES_TO_LOCK) {
 			isHandLocked = true;
 		} else {
@@ -66,17 +68,14 @@ public class ControlListener extends Listener {
 			framesWithSameFingerCount = 0;
 		}
 		if (framesWithSameFingerCount >= FRAMES_TO_LISTEN_TO_FINGERS / 3) {
-			view.setTrackLevel(1);
+
 		}
 		if (framesWithSameFingerCount >= (FRAMES_TO_LISTEN_TO_FINGERS * 2) / 3) {
-			view.setTrackLevel(2);
+
 		}
 		if (framesWithSameFingerCount == FRAMES_TO_LISTEN_TO_FINGERS) {
-			view.setTrackLevel(3);
-			int trackedFinger = getTrackedFingerCount(controller);
 			int p = pointedField.ordinal();
 			model.setHeatLevel(p, trackedFinger);
-			view.setTrackLevel(0);
 		}
 	}
 

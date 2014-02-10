@@ -12,7 +12,7 @@ public class ProcessingSketch extends PApplet {
 	private int height;
 	private Field hoveredField;
 	private Field lockedField;
-	private int trackLevel;
+	private int currentFingerCount;
 	private Controller leapController;
 	private ControlListener controlListener;
 	private Herd model;
@@ -42,20 +42,19 @@ public class ProcessingSketch extends PApplet {
 		this.lockedField = field;
 	}
 
-	public void setTrackLevel(int trackLevel) {
-		this.trackLevel = trackLevel;
+	public void setCurrentFingerCount(int fingerCount) {
+		this.currentFingerCount = fingerCount;
 	}
 
 	public void draw() {
 		background(0);
+		fill(0);
+		rect(0, 0, width, height);
+		noFill();
 		textFont(font, height / 16);
 		stroke(255);
-		//line(0, height / 2, width, height/2);
-		//line(width / 2, 0, width / 2, height);
 		drawHoverDot();
 		drawHotplates();
-		textFont(font, height / 16);
-		//drawLoadingDot();
 	}
 
 	private void drawHotplates() {
@@ -73,6 +72,9 @@ public class ProcessingSketch extends PApplet {
 		if (keyPressed) {
 			model.turnOff();
 		}
+		if (hoveredField != Field.NO_FIELD) {
+			drawNewHeatLevelOnCurrentFingerCound(X_LEFT, Y_TOP, RADIUS);
+		}
 	}
 
 	private void drawPlate(int xPos, int yPos, int radius, int heatLevel) {
@@ -85,7 +87,7 @@ public class ProcessingSketch extends PApplet {
 
 	private void drawHeatRingInHotPlate(int xPos, int yPos, int radius, int heatLevel) {
 		int heatRadius = radius / 10;
-		int distanceToNextHeat = radius / 6;
+		int distanceToNextHeat = radius / 5;
 		stroke(255, 0, 0);
 		strokeWeight(15);
 		for (int i = 0;  i < heatLevel; i++) {
@@ -98,7 +100,7 @@ public class ProcessingSketch extends PApplet {
 
 	private void drawHeatLevelInformationText(int xPos, int yPos, int heatLevel) {
 		textSize(32);
-		fill(255);
+		fill(255, 255, 255);
 		text(heatLevel , xPos, yPos);
 		noFill();
 	}
@@ -140,9 +142,16 @@ public class ProcessingSketch extends PApplet {
 		}
 	}
 
-	private void greyOutHerdField(float alpha) {
-		fill(0, 0, 0, alpha);
-		rect(0, 0, width, height);
-		noFill();
+	private void drawNewHeatLevelOnCurrentFingerCound(int xPos, int yPos, int radius) {
+		int heatRadius = radius / 10;
+		int distanceToNextHeat = radius / 5;
+		stroke(255, 255, 255, 80);
+		strokeWeight(15);
+		for (int i = 0;  i < currentFingerCount; i++) {
+			ellipse(xPos, yPos, heatRadius, heatRadius);
+			heatRadius += distanceToNextHeat;
+		}
+		strokeWeight(1);
+		stroke(255);
 	}
 }
