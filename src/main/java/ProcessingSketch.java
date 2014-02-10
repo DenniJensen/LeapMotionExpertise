@@ -26,8 +26,8 @@ public class ProcessingSketch extends PApplet {
 		font = createFont("Arial",16,true);
 		hoveredField = Field.NO_FIELD;
 		lockedField = Field.NO_FIELD;
-		width = displayWidth;
-		height = displayHeight;
+		width = displayWidth - 10;
+		height = displayHeight - 60;
 		size(width, height);
 		model = new Herd(4, 5);
 		controlListener = new ControlListener(model, this);
@@ -48,15 +48,16 @@ public class ProcessingSketch extends PApplet {
 
 	public void draw() {
 		background(0);
+		textFont(font, height / 16);
 		stroke(255);
-		line(0, height / 2, width, height/2);
-		line(width / 2, 0, width / 2, height);
+		//line(0, height / 2, width, height/2);
+		//line(width / 2, 0, width / 2, height);
 		drawHoverDot();
-		drawLockedField();
 		drawHotplates();
 		textFont(font, height / 16);
-		drawLoadingDot();
-		drawHeatLevel();
+		//drawLoadingDot();
+		fill(0, 0, 0, 0.9f);
+		rect(0, 0, width, height);
 	}
 
 	private void drawHotplates() {
@@ -65,24 +66,48 @@ public class ProcessingSketch extends PApplet {
 		final int X_RIGHT = X_LEFT + width / 2;
 		final int Y_TOP = height / 4;
 		final int Y_BOTTOM = Y_TOP + height / 2;
-		final int RADIUS = height / 3;
+		final int RADIUS = (height / 5) * 2;
+		noFill();
 		drawPlate(X_LEFT, Y_TOP, RADIUS);
+		drawHeatInHotPlate(X_LEFT, Y_TOP, RADIUS, model.getHeatLevel(0));
+
 		drawPlate(X_RIGHT, Y_TOP, RADIUS);
+		drawHeatInHotPlate(X_RIGHT, Y_TOP, RADIUS, model.getHeatLevel(1));
+
 		drawPlate(X_LEFT, Y_BOTTOM, RADIUS);
+		drawHeatInHotPlate(X_LEFT, Y_BOTTOM, RADIUS, model.getHeatLevel(2));
+
 		drawPlate(X_RIGHT, Y_BOTTOM, RADIUS);
+		drawHeatInHotPlate(X_RIGHT, Y_BOTTOM, RADIUS, model.getHeatLevel(3));
+
 		if (keyPressed) {
 			model.turnOff();
 		}
 	}
 
 	private void drawPlate(int xPos, int yPos, int radius) {
-		fill(0);
+		stroke(255);
+		noFill();
 		ellipse(xPos, yPos, radius, radius);
+	}
+
+	private void drawHeatInHotPlate(int xPos, int yPos, int radius, int heatLevel) {
+		drawHeatLevel(xPos + radius / 2, yPos + radius / 2, heatLevel);
+		int heatRadius = radius / 10;
+		int distanceToNextHeat = radius / 6;
+		stroke(255, 0, 0);
+		strokeWeight(15);
+		for (int i = 0;  i < heatLevel; i++) {
+			ellipse(xPos, yPos, heatRadius, heatRadius);
+			heatRadius += distanceToNextHeat;
+		}
+		strokeWeight(1);
+		stroke(255);
 	}
 
 	private void drawHoverDot () {
 		stroke(255, 0, 0);
-		fill(0, 0, 0);
+		noFill();
 		final int X_LEFT = (width / 16) + width / 3;
 		final int X_RIGHT = X_LEFT + width / 2;
 		final int Y_TOP = height / 16;
@@ -119,7 +144,7 @@ public class ProcessingSketch extends PApplet {
 
 	private void drawLockedField() {
 		stroke(255, 0, 0);
-		fill(0, 0, 0);
+		noFill();
 		final int X_LEFT = width / 4;
 		final int X_RIGHT = X_LEFT + width / 2;
 		final int Y_TOP = height / 4;
@@ -138,65 +163,16 @@ public class ProcessingSketch extends PApplet {
 		}
 	}
 
-	private void drawLoadingDot() {
+	private void drawLoadingDot(int xPos, int yPos, int caliber) {
 		stroke(255);
 		fill(0, 0, 0, 1);
-		final int X_LEFT = height / 30;
-		final int X_RIGHT = X_LEFT + width / 2;
-		final int Y_TOP = height / 16 + height / 3;
-		final int Y_BOTTOM = Y_TOP + height / 2;
-		final int RADIUS = height / 30;
-		final int SPACE = RADIUS + 10;
-
-		if (trackLevel > 0 && hoveredField == Field.TOP_LEFT) {
-			fill(0, 255, 0, 1);
-		}
-		ellipse(X_LEFT, Y_TOP, RADIUS, RADIUS);
-		ellipse(X_LEFT + SPACE, Y_TOP, RADIUS, RADIUS);
-		ellipse(X_LEFT + 2 * SPACE, Y_TOP, RADIUS, RADIUS);
-
-		if (trackLevel > 0 && hoveredField == Field.TOP_RIGHT) {
-			fill(0, 255, 0, 1);
-		}
-		ellipse(X_RIGHT, Y_TOP, RADIUS, RADIUS);
-		ellipse(X_RIGHT + SPACE, Y_TOP, RADIUS, RADIUS);
-		ellipse(X_RIGHT + 2 * SPACE, Y_TOP, RADIUS, RADIUS);
-
-		if (trackLevel > 0 && hoveredField == Field.BOTTOM_LEFT) {
-			fill(0, 255, 0, 1);
-		}
-		ellipse(X_LEFT, Y_BOTTOM, RADIUS, RADIUS);
-		ellipse(X_LEFT + SPACE, Y_BOTTOM, RADIUS, RADIUS);
-		ellipse(X_LEFT + 2 * SPACE, Y_BOTTOM, RADIUS, RADIUS);
-
-		if (trackLevel > 0 && hoveredField == Field.BOTTOM_RIGHT) {
-			fill(0, 255, 0, 1);
-		}
-
-		ellipse(X_RIGHT, Y_BOTTOM, RADIUS, RADIUS);
-		ellipse(X_RIGHT + SPACE, Y_BOTTOM, RADIUS, RADIUS);
-		ellipse(X_RIGHT + 2 * SPACE, Y_BOTTOM, RADIUS, RADIUS);
+		ellipse(xPos, yPos, caliber, caliber);
 	}
 
-	private void drawHeatLevel() {
+	private void drawHeatLevel(int xPos, int yPos, int heatLevel) {
 		textSize(32);
 		fill(255);
-		final int X_LEFT = height / 30;
-		final int X_RIGHT = X_LEFT + width / 2;
-		final int Y_TOP = height / 16 + height / 3 - 16;
-		final int Y_BOTTOM = Y_TOP + height / 2;
-		final int RADIUS = height / 30;
-		int heat;
-		heat = model.getHeatLevel(0);
-		text(heat , X_LEFT, Y_TOP);
-
-		heat = model.getHeatLevel(1);
-		text(heat , X_RIGHT, Y_TOP);
-
-		heat = model.getHeatLevel(2);
-		text(heat , X_LEFT, Y_BOTTOM);
-
-		heat = model.getHeatLevel(3);
-		text(heat , X_RIGHT, Y_BOTTOM);
+		text(heatLevel , xPos, yPos);
+		noFill();
 	}
 }

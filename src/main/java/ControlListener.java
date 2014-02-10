@@ -10,8 +10,8 @@ public class ControlListener extends Listener {
 	private int framesInSameField;
 	private int framesWithSameFingerCount;
 	private boolean isHandLocked;
-	private final int FRAMES_TO_LOCK = 60;
-	private final int FRAMES_TO_LISTEN_TO_FINGERS = 60;
+	private final int FRAMES_TO_LOCK = 30;
+	private final int FRAMES_TO_LISTEN_TO_FINGERS = 10;
 
 	public ControlListener(Herd model, ProcessingSketch view) {
 		this.model = model;
