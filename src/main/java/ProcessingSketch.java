@@ -73,7 +73,20 @@ public class ProcessingSketch extends PApplet {
 			model.turnOff();
 		}
 		if (hoveredField != Field.NO_FIELD) {
-			drawNewHeatLevelOnCurrentFingerCound(X_LEFT, Y_TOP, RADIUS);
+			switch (hoveredField) {
+				case TOP_LEFT:
+					drawNewHeatLevelOnCurrentFingerCount(X_LEFT, Y_TOP, RADIUS);
+					break;
+				case TOP_RIGHT:
+					drawNewHeatLevelOnCurrentFingerCount(X_RIGHT, Y_TOP, RADIUS);
+					break;
+				case BOTTOM_LEFT:
+					drawNewHeatLevelOnCurrentFingerCount(X_LEFT, Y_BOTTOM, RADIUS);
+					break;
+				case BOTTOM_RIGHT:
+					drawNewHeatLevelOnCurrentFingerCount(X_RIGHT, Y_BOTTOM, RADIUS);
+					break;
+			}
 		}
 	}
 
@@ -142,7 +155,7 @@ public class ProcessingSketch extends PApplet {
 		}
 	}
 
-	private void drawNewHeatLevelOnCurrentFingerCound(int xPos, int yPos, int radius) {
+	private void drawNewHeatLevelOnCurrentFingerCount(int xPos, int yPos, int radius) {
 		int heatRadius = radius / 10;
 		int distanceToNextHeat = radius / 5;
 		stroke(255, 255, 255, 50);

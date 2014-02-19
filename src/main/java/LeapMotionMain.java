@@ -1,5 +1,4 @@
 import processing.core.PApplet;
-
 /**
  *
  * @author Dennis Hägler - dennis.haegler@gmail.com
