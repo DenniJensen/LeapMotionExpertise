@@ -1,7 +1,7 @@
 import com.leapmotion.leap.*;
 
 /**
- * 
+ *
  * @author Dennis Hägler - dennis.haegler@gmail.com
  */
 public class ControlListener extends Listener {
