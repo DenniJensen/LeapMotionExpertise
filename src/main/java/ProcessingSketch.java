@@ -23,7 +23,8 @@ public class ProcessingSketch extends PApplet {
 
 	/**
 	 * Initial all references need to draw information form the model and the leap
-	 * motion controller
+	 * motion controller.
+	 * The Leap Controller has to be startet to interact with the leap motion.
 	 */
 	public void setup() {
 		font = createFont("Arial",16,true);
@@ -180,8 +181,8 @@ public class ProcessingSketch extends PApplet {
 	}
 
 	private boolean isTopLeftLocked() {
-		return (hoveredField == Field.TOP_LEFT) &&
-				(lockedField == Field.TOP_LEFT);
+		return hoveredField == Field.TOP_LEFT &&
+				lockedField == Field.TOP_LEFT;
 	}
 
 	private void drawNewHeatLevelOnCurrentFingerCount(int xPos, int yPos, int radius) {
