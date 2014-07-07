@@ -53,6 +53,9 @@ public class ProcessingSketch extends PApplet {
 		noFill();
 		textFont(font, height / 16);
 		stroke(255);
+		if (keyPressed) {
+			model.turnOff();
+		}
 		drawHoverDot();
 		drawHotplates();
 	}
@@ -69,24 +72,19 @@ public class ProcessingSketch extends PApplet {
 		drawPlate(X_RIGHT, Y_TOP, RADIUS, model.getHeatLevel(1));
 		drawPlate(X_LEFT, Y_BOTTOM, RADIUS, model.getHeatLevel(2));
 		drawPlate(X_RIGHT, Y_BOTTOM, RADIUS, model.getHeatLevel(3));
-		if (keyPressed) {
-			model.turnOff();
-		}
-		if (hoveredField != Field.NO_FIELD) {
-			switch (hoveredField) {
-				case TOP_LEFT:
-					drawNewHeatLevelOnCurrentFingerCount(X_LEFT, Y_TOP, RADIUS);
-					break;
-				case TOP_RIGHT:
-					drawNewHeatLevelOnCurrentFingerCount(X_RIGHT, Y_TOP, RADIUS);
-					break;
-				case BOTTOM_LEFT:
-					drawNewHeatLevelOnCurrentFingerCount(X_LEFT, Y_BOTTOM, RADIUS);
-					break;
-				case BOTTOM_RIGHT:
-					drawNewHeatLevelOnCurrentFingerCount(X_RIGHT, Y_BOTTOM, RADIUS);
-					break;
-			}
+		switch (hoveredField) {
+			case TOP_LEFT:
+				drawNewHeatLevelOnCurrentFingerCount(X_LEFT, Y_TOP, RADIUS);
+				break;
+			case TOP_RIGHT:
+				drawNewHeatLevelOnCurrentFingerCount(X_RIGHT, Y_TOP, RADIUS);
+				break;
+			case BOTTOM_LEFT:
+				drawNewHeatLevelOnCurrentFingerCount(X_LEFT, Y_BOTTOM, RADIUS);
+				break;
+			case BOTTOM_RIGHT:
+				drawNewHeatLevelOnCurrentFingerCount(X_RIGHT, Y_BOTTOM, RADIUS);
+				break;
 		}
 	}
 
