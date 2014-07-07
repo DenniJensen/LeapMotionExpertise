@@ -131,8 +131,7 @@ public class ProcessingSketch extends PApplet {
 		stroke(255, 255, 255);
 		noFill();
 		final int DEVIDER = 8;
-		final int DEVIDER_X = 8;
-		final int X_LEFT = (width / DEVIDER) + width / DEVIDER_X;
+		final int X_LEFT = (width / DEVIDER) + width / DEVIDER;
 		final int X_RIGHT = X_LEFT + width / 2;
 		final int Y_TOP = height / 4;
 		final int Y_BOTTOM = Y_TOP + height / 2;

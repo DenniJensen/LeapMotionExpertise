@@ -72,11 +72,7 @@ public class ControllerListener extends Listener {
 	}
 
 	private boolean isHandLocked() {
-		if (framesInSameField >= FRAMES_TO_LOCK) {
-			return true;
-		} else {
-			return false;
-		}
+		return framesInSameField >= FRAMES_TO_LOCK;
 	}
 
 	private void countFramesWithSameFingerCount(Frame frame, Frame prevFrame) {
