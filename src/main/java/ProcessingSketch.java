@@ -149,7 +149,7 @@ public class ProcessingSketch extends PApplet {
 
 	private void drawBottomRightHoverDot(int x_RIGHT, int y_BOTTOM, int RADIUS) {
 		if (lockedField == Field.BOTTOM_RIGHT) {
-			fill(0, 255, 0);
+			fill(255, 255, 255);
 		}
 		ellipse(x_RIGHT, y_BOTTOM, RADIUS, RADIUS);
 		fill(0, 0, 0);
@@ -157,7 +157,7 @@ public class ProcessingSketch extends PApplet {
 
 	private void drawBottomLeftHoverDot(int x_LEFT, int y_BOTTOM, int RADIUS) {
 		if (lockedField == Field.BOTTOM_LEFT) {
-			fill(0, 255, 0);
+			fill(255, 255, 255);
 		}
 		ellipse(x_LEFT, y_BOTTOM, RADIUS, RADIUS);
 		fill(0, 0, 0);
@@ -165,7 +165,7 @@ public class ProcessingSketch extends PApplet {
 
 	private void drawTopRightHoverDot(int x_RIGHT, int y_TOP, int RADIUS) {
 		if (lockedField == Field.TOP_RIGHT) {
-			fill(0, 255, 0);
+			fill(255, 255, 255);
 		}
 		ellipse(x_RIGHT, y_TOP, RADIUS, RADIUS);
 		fill(0, 0, 0);
@@ -173,7 +173,7 @@ public class ProcessingSketch extends PApplet {
 
 	private void drawTopLeftHoverDot(int x_LEFT, int y_TOP, int RADIUS) {
 		if (lockedField == Field.TOP_LEFT) {
-			fill(0, 255, 0);
+			fill(255, 255, 255);
 		}
 		ellipse(x_LEFT, y_TOP, RADIUS, RADIUS);
 		fill(0, 0, 0);
@@ -198,6 +198,8 @@ public class ProcessingSketch extends PApplet {
 	}
 
 	private void drawPointingDot() {
-		ellipse(xPosHand * 10 + width / 2, yPosHand * 10 + height / 2, 10, 10);
+		final int MULT_X = width / 100;
+		ellipse(xPosHand * MULT_X + width / 2,
+				yPosHand * MULT_X + height / 2, 10, 10);
 	}
 }
