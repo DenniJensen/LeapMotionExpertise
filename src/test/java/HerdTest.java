@@ -4,9 +4,6 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
-/**
- * Created by dennis on 1/29/14.
- */
 public class HerdTest {
 	Herd herd;
 

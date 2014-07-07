@@ -98,11 +98,6 @@ public class ControlListener extends Listener {
 		}
 	}
 
-	/**
-	 *
-	 * @param frame
-	 * @return
-	 */
 	private Field getPointedField(Frame frame) {
 		Field pointedField;
 		if (frame.hands().isEmpty()) {
@@ -114,11 +109,6 @@ public class ControlListener extends Listener {
 		return pointedField;
 	}
 
-	/**
-	 *
-	 * @param hand
-	 * @return
-	 */
 	private Field getField(Hand hand) {
 		Vector vector = hand.palmPosition();
 		float xPos = vector.getX();

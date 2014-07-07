@@ -46,7 +46,9 @@ public class Herd {
 			outGoingString = "No Header implemented";
 		} else {
 			for (int i = 0; i < countOfHeader; i++) {
-				outGoingString += "Header-" + i + " " + hotPlates[i].toString() + "\n";
+				outGoingString += "Header-" + i
+						+ " " + hotPlates[i].toString()
+						+ "\n";
 			}
 		}
 		return outGoingString;
