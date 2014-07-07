@@ -51,11 +51,28 @@ public class ControllerListener extends Listener {
 		Field prevPointedField = getPointedField(prevFrame);
 		view.setHoveredField(pointedField);
 		countFramesOnSameField(pointedField, prevPointedField);
+		sendFingerCountToView(frame, prevFrame);
+		sendLockedHandToView(frame, prevFrame, pointedField);
+		int fingerCount = countTrackedFinger(frame);
+		sendHeadLevelToView(pointedField, fingerCount);
+	}
+
+	private void sendFingerCountToView(Frame frame, Frame prevFrame) {
 		int fingerCount = countTrackedFinger(frame);
 		int prevFingerCount = countTrackedFinger(prevFrame);
 		if (fingerCount != prevFingerCount) {
 			view.setCurrentFingerCount(fingerCount);
 		}
+	}
+
+	private void sendHeadLevelToView(Field pointedField, int fingerCount) {
+		if (framesWithSameFingerCount == FRAMES_TO_LISTEN_TO_FINGERS) {
+			int p = pointedField.ordinal();
+			model.setHeatLevel(p, fingerCount);
+		}
+	}
+
+	private void sendLockedHandToView(Frame frame, Frame prevFrame, Field pointedField) {
 		if (isHandLocked()) {
 			view.setLockedField(pointedField);
 			countFramesWithSameFingerCount(frame, prevFrame);
@@ -63,11 +80,6 @@ public class ControllerListener extends Listener {
 			view.setLockedField(Field.NO_FIELD);
 			framesWithSameFingerCount = 0;
 		}
-		if (framesWithSameFingerCount == FRAMES_TO_LISTEN_TO_FINGERS) {
-			int p = pointedField.ordinal();
-			model.setHeatLevel(p, fingerCount);
-		}
-		System.out.println(fingerCount);
 	}
 
 	private void countFramesOnSameField(Field pointedField, Field prevPointedField) {
