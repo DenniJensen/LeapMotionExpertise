@@ -1,6 +1,7 @@
 import processing.core.PApplet;
 import processing.core.PFont;
 import com.leapmotion.leap.Controller;
+import com.leapmotion.leap.Hand;
 
 /**
  * Object to draw the logic in Processing.
@@ -10,6 +11,8 @@ import com.leapmotion.leap.Controller;
 public class ProcessingSketch extends PApplet {
 	private int width;
 	private int height;
+	private float xPosHand;
+	private float yPosHand;
 	private Field hoveredField;
 	private Field lockedField;
 	private int currentFingerCount;
@@ -42,6 +45,11 @@ public class ProcessingSketch extends PApplet {
 		this.lockedField = field;
 	}
 
+	public void setHandPos(Hand hand) {
+		this.xPosHand = hand.palmPosition().getX();
+		this.yPosHand = hand.palmPosition().getZ();
+	}
+
 	public void setCurrentFingerCount(int fingerCount) {
 		this.currentFingerCount = fingerCount;
 	}
@@ -58,6 +66,7 @@ public class ProcessingSketch extends PApplet {
 		}
 		drawHoverDot();
 		drawHotplates();
+		drawPointingDot();
 	}
 
 	private void drawHotplates() {
@@ -90,8 +99,9 @@ public class ProcessingSketch extends PApplet {
 
 	private void drawPlate(int xPos, int yPos, int radius, int heatLevel) {
 		stroke(255);
-		noFill();
+		fill(GRAY);
 		ellipse(xPos, yPos, radius, radius);
+		noFill();
 		drawHeatRingInHotPlate(xPos, yPos, radius, heatLevel);
 		drawHeatLevelInformationText(xPos + radius / 2, yPos + radius / 2, heatLevel);
 	}
@@ -117,13 +127,15 @@ public class ProcessingSketch extends PApplet {
 	}
 
 	private void drawHoverDot () {
-		stroke(255, 0, 0);
+		stroke(255, 255, 255);
 		noFill();
-		final int X_LEFT = (width / 16) + width / 3;
+		final int DEVIDER = 8;
+		final int DEVIDER_X = 8;
+		final int X_LEFT = (width / DEVIDER) + width / DEVIDER_X;
 		final int X_RIGHT = X_LEFT + width / 2;
-		final int Y_TOP = height / 16;
+		final int Y_TOP = height / 4;
 		final int Y_BOTTOM = Y_TOP + height / 2;
-		final int RADIUS = height / 20;
+		final int RADIUS = height / 2;
 		if (hoveredField == Field.TOP_LEFT) {
 			drawTopLeftHoverDot(X_LEFT, Y_TOP, RADIUS);
 		} else if (hoveredField == Field.TOP_RIGHT) {
@@ -137,7 +149,7 @@ public class ProcessingSketch extends PApplet {
 
 	private void drawBottomRightHoverDot(int x_RIGHT, int y_BOTTOM, int RADIUS) {
 		if (lockedField == Field.BOTTOM_RIGHT) {
-			fill(255, 0, 0);
+			fill(0, 255, 0);
 		}
 		ellipse(x_RIGHT, y_BOTTOM, RADIUS, RADIUS);
 		fill(0, 0, 0);
@@ -145,7 +157,7 @@ public class ProcessingSketch extends PApplet {
 
 	private void drawBottomLeftHoverDot(int x_LEFT, int y_BOTTOM, int RADIUS) {
 		if (lockedField == Field.BOTTOM_LEFT) {
-			fill(255, 0, 0);
+			fill(0, 255, 0);
 		}
 		ellipse(x_LEFT, y_BOTTOM, RADIUS, RADIUS);
 		fill(0, 0, 0);
@@ -153,7 +165,7 @@ public class ProcessingSketch extends PApplet {
 
 	private void drawTopRightHoverDot(int x_RIGHT, int y_TOP, int RADIUS) {
 		if (lockedField == Field.TOP_RIGHT) {
-			fill(255, 0, 0);
+			fill(0, 255, 0);
 		}
 		ellipse(x_RIGHT, y_TOP, RADIUS, RADIUS);
 		fill(0, 0, 0);
@@ -161,7 +173,7 @@ public class ProcessingSketch extends PApplet {
 
 	private void drawTopLeftHoverDot(int x_LEFT, int y_TOP, int RADIUS) {
 		if (lockedField == Field.TOP_LEFT) {
-			fill(255, 0, 0);
+			fill(0, 255, 0);
 		}
 		ellipse(x_LEFT, y_TOP, RADIUS, RADIUS);
 		fill(0, 0, 0);
@@ -183,5 +195,9 @@ public class ProcessingSketch extends PApplet {
 		}
 		strokeWeight(1);
 		stroke(255);
+	}
+
+	private void drawPointingDot() {
+		ellipse(xPosHand * 10 + width / 2, yPosHand * 10 + height / 2, 10, 10);
 	}
 }

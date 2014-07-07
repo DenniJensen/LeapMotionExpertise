@@ -10,7 +10,7 @@ public class ControllerListener extends Listener {
 	private int framesInSameField;
 	private int framesWithSameFingerCount;
 	private final int FRAMES_TO_LOCK = 60;
-	private final int FRAMES_TO_LISTEN_TO_FINGERS = 30;
+	private final int FRAMES_TO_LISTEN_TO_FINGERS = 60;
 
 	public ControllerListener(Herd model, ProcessingSketch view) {
 		this.model = model;
@@ -24,32 +24,13 @@ public class ControllerListener extends Listener {
 	}
 
 	@Override
-	public void onInit(Controller controller) {
-		System.out.println("Initialized");
-	}
-
-	@Override
-	public void onConnect(Controller controller) {
-		System.out.println("Connected");
-	}
-
-	@Override
-	public void onDisconnect(Controller controller) {
-		System.out.println("Disconnected");
-	}
-
-	@Override
-	public void onExit(Controller controller) {
-		System.out.println("Exited");
-	}
-
-	@Override
 	public void onFrame(Controller controller) {
 		Frame frame = controller.frame();
 		Frame prevFrame = controller.frame(1);
 		Field pointedField = getPointedField(frame);
 		Field prevPointedField = getPointedField(prevFrame);
 		view.setHoveredField(pointedField);
+		view.setHandPos(frame.hands().get(0));
 		countFramesOnSameField(pointedField, prevPointedField);
 		sendFingerCountToView(frame, prevFrame);
 		sendLockedHandToView(frame, prevFrame, pointedField);
@@ -116,9 +97,8 @@ public class ControllerListener extends Listener {
 	}
 
 	private Field getField(Hand hand) {
-		Vector vector = hand.palmPosition();
-		float xPos = vector.getX();
-		float zPos = vector.getZ();
+		float xPos = hand.palmPosition().getX();
+		float zPos = hand.palmPosition().getZ();
 		if (xPos < 0 && zPos < 0) {
 			return Field.TOP_LEFT;
 		}
