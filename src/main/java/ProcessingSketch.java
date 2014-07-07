@@ -14,7 +14,7 @@ public class ProcessingSketch extends PApplet {
 	private Field lockedField;
 	private int currentFingerCount;
 	private Controller leapController;
-	private ControlListener controlListener;
+	private ControllerListener controllerListener;
 	private Herd model;
 	private PFont font;
 
@@ -30,8 +30,8 @@ public class ProcessingSketch extends PApplet {
 		height = displayHeight - 60;
 		size(width, height);
 		model = new Herd(4, 5);
-		controlListener = new ControlListener(model, this);
-		leapController = new Controller(controlListener);
+		controllerListener = new ControllerListener(model, this);
+		leapController = new Controller(controllerListener);
 	}
 
 	public void setHoveredField(Field field) {
@@ -126,33 +126,52 @@ public class ProcessingSketch extends PApplet {
 		final int Y_TOP = height / 16;
 		final int Y_BOTTOM = Y_TOP + height / 2;
 		final int RADIUS = height / 20;
-		if (hoveredField != Field.NO_FIELD) {
-			if (hoveredField == Field.TOP_LEFT) {
-				if (lockedField == Field.TOP_LEFT) {
-					fill(255, 0, 0);
-				}
-				ellipse(X_LEFT, Y_TOP, RADIUS, RADIUS);
-				fill(0, 0, 0);
-			} else if (hoveredField == Field.TOP_RIGHT) {
-				if (lockedField == Field.TOP_RIGHT) {
-					fill(255, 0, 0);
-				}
-				ellipse(X_RIGHT, Y_TOP, RADIUS, RADIUS);
-				fill(0, 0, 0);
-			} else if (hoveredField == Field.BOTTOM_LEFT) {
-				if (lockedField == Field.BOTTOM_LEFT) {
-					fill(255, 0, 0);
-				}
-				ellipse(X_LEFT, Y_BOTTOM, RADIUS, RADIUS);
-				fill(0, 0, 0);
-			} else if (hoveredField == Field.BOTTOM_RIGHT) {
-				if (lockedField == Field.BOTTOM_RIGHT) {
-					fill(255, 0, 0);
-				}
-				ellipse(X_RIGHT, Y_BOTTOM, RADIUS, RADIUS);
-				fill(0, 0, 0);
-			}
+		if (hoveredField == Field.TOP_LEFT) {
+			drawTopLeftHoverDot(X_LEFT, Y_TOP, RADIUS);
+		} else if (hoveredField == Field.TOP_RIGHT) {
+			drawTopRightHoverDot(X_RIGHT, Y_TOP, RADIUS);
+		} else if (hoveredField == Field.BOTTOM_LEFT) {
+			drawBottomLeftHoverDot(X_LEFT, Y_BOTTOM, RADIUS);
+		} else if (hoveredField == Field.BOTTOM_RIGHT) {
+			drawBottomRightHoverDot(X_RIGHT, Y_BOTTOM, RADIUS);
 		}
+	}
+
+	private void drawBottomRightHoverDot(int x_RIGHT, int y_BOTTOM, int RADIUS) {
+		if (lockedField == Field.BOTTOM_RIGHT) {
+			fill(255, 0, 0);
+		}
+		ellipse(x_RIGHT, y_BOTTOM, RADIUS, RADIUS);
+		fill(0, 0, 0);
+	}
+
+	private void drawBottomLeftHoverDot(int x_LEFT, int y_BOTTOM, int RADIUS) {
+		if (lockedField == Field.BOTTOM_LEFT) {
+			fill(255, 0, 0);
+		}
+		ellipse(x_LEFT, y_BOTTOM, RADIUS, RADIUS);
+		fill(0, 0, 0);
+	}
+
+	private void drawTopRightHoverDot(int x_RIGHT, int y_TOP, int RADIUS) {
+		if (lockedField == Field.TOP_RIGHT) {
+			fill(255, 0, 0);
+		}
+		ellipse(x_RIGHT, y_TOP, RADIUS, RADIUS);
+		fill(0, 0, 0);
+	}
+
+	private void drawTopLeftHoverDot(int x_LEFT, int y_TOP, int RADIUS) {
+		if (lockedField == Field.TOP_LEFT) {
+			fill(255, 0, 0);
+		}
+		ellipse(x_LEFT, y_TOP, RADIUS, RADIUS);
+		fill(0, 0, 0);
+	}
+
+	private boolean isTopLeftLocked() {
+		return (hoveredField == Field.TOP_LEFT) &&
+				(lockedField == Field.TOP_LEFT);
 	}
 
 	private void drawNewHeatLevelOnCurrentFingerCount(int xPos, int yPos, int radius) {

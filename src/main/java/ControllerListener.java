@@ -4,7 +4,7 @@ import com.leapmotion.leap.*;
  *
  * @author Dennis Hägler - dennis.haegler@gmail.com
  */
-public class ControlListener extends Listener {
+public class ControllerListener extends Listener {
 	private Herd model;
 	private ProcessingSketch view;
 	private int framesInSameField;
@@ -13,7 +13,7 @@ public class ControlListener extends Listener {
 	private final int FRAMES_TO_LOCK = 60;
 	private final int FRAMES_TO_LISTEN_TO_FINGERS = 30;
 
-	public ControlListener(Herd model, ProcessingSketch view) {
+	public ControllerListener(Herd model, ProcessingSketch view) {
 		this.model = model;
 		this.view = view;
 		this.framesInSameField = 0;
